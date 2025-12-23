@@ -585,6 +585,11 @@ body {
 
 }
 
+/* Hide ghost slot when no image is assigned */
+.projectItemRight img:not([src]) {
+    display: none;
+}
+
 .skill {
     padding: 25px;
     width: 100%;
