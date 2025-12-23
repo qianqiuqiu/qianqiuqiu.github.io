@@ -586,7 +586,9 @@ body {
 }
 
 /* Hide ghost slot when no image is assigned */
-.projectItemRight img:not([src]) {
+.projectItemRight img:not([src]),
+.projectItemRight img[src=""],
+.projectItemRight img[src="about:blank"] {
     display: none;
 }
 
