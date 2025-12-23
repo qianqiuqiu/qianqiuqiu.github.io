@@ -33,16 +33,6 @@ buttons.forEach(function (button) {
     button.addEventListener('touchcancel', handleCancel);
 });
 
-// Hide broken/empty project icons while keeping the slot available
-document.querySelectorAll('.projectItemRight img').forEach(function (img) {
-    if (!img.getAttribute('src')) {
-        img.style.display = 'none';
-    }
-    img.addEventListener('error', function () {
-        img.style.display = 'none';
-    });
-});
-
 function toggleClass(selector, className) {
     var elements = document.querySelectorAll(selector);
     elements.forEach(function (element) {

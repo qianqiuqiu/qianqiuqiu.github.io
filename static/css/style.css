@@ -563,32 +563,10 @@ body {
     transition: width 0.4s ease;
     will-change: width;
     height: 100%;
-    width: 80%;
+    width: 100%;
 }
-
 
 .projectItemRight {
-    overflow: hidden;
-    transition: width 0.4s ease;
-    will-change: width;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20%;
-    height: 100%;
-}
-
-.projectItemRight img {
-
-    height: 39px;
-    width: 39px;
-
-}
-
-/* Hide ghost slot when no image is assigned */
-.projectItemRight img:not([src]),
-.projectItemRight img[src=""],
-.projectItemRight img[src="about:blank"] {
     display: none;
 }
 
