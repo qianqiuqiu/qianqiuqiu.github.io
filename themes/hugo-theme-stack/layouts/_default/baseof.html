@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}" dir="{{ default `ltr` .Language.LanguageDirection }}">
+    <head>
+        {{- partial "head/head.html" . -}}
+        {{- block "head" . -}}{{ end }}
+    </head>
+    <body class="{{ block `body-class` . }}{{ end }}">
+        {{- partial "head/colorScheme" . -}}
+
+        {{/* The container is wider when there's any activated widget */}}
+        {{- $hasWidget := false -}}
+        {{- range .Site.Params.widgets -}}
+            {{- if gt (len .) 0 -}}
+                {{- $hasWidget = true -}}
+            {{- end -}}
+        {{- end -}}
+        <div class="container main-container flex on-phone--column {{ if $hasWidget }}extended{{ else }}compact{{ end }}">
+            {{- block "left-sidebar" . -}}
+                {{ partial "sidebar/left.html" . }}
+            {{- end -}}
+            {{- block "right-sidebar" . -}}{{ end }}
+            <main class="main full-width">
+                {{- block "main" . }}{{- end }}
+            </main>
+        </div>
+        
+        {{- if $hasWidget -}}
+        <div id="toggle-sidebar-btn" class="toggle-sidebar-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-sidebar-right-collapse" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                <path d="M15 4v16"></path>
+                <path d="M9 10l2 2l-2 2"></path>
+            </svg>
+        </div>
+        <script>
+            const toggleBtn = document.getElementById('toggle-sidebar-btn');
+            const container = document.querySelector('.container.main-container');
+            const icon = toggleBtn.querySelector('svg');
+
+            // Icon for collapsed state (expand)
+            const expandIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-sidebar-right-expand" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                <path d="M15 4v16"></path>
+                <path d="M13 10l-2 2l2 2"></path>
+            </svg>`;
+            
+            // Icon for expanded state (collapse)
+            const collapseIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-sidebar-right-collapse" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                <path d="M15 4v16"></path>
+                <path d="M9 10l2 2l-2 2"></path>
+            </svg>`;
+
+            toggleBtn.addEventListener('click', () => {
+                const isCollapsed = container.classList.toggle('right-sidebar-collapsed');
+                toggleBtn.innerHTML = isCollapsed ? expandIcon : collapseIcon;
+            });
+        </script>
+        {{- end -}}
+
+        {{ partial "footer/include.html" . }}
+    </body>
+</html>

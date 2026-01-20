@@ -1,0 +1,191 @@
+/* Dark Mode Support and Custom Colors */
+:root {
+    --sidebar-bg-color: rgba(255, 255, 255, 0.6);
+    --sidebar-inner-bg-color: #fff;
+    --sidebar-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+    &[data-scheme="dark"] {
+        --sidebar-bg-color: rgba(30, 30, 30, 0.6); /* Semi-transparent dark for outer sidebar */
+        --sidebar-inner-bg-color: var(--card-background); /* Use theme card color for inner boxes */
+        --sidebar-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+    }
+}
+
+/* Customize Sidebar Background */
+.sidebar.left-sidebar {
+    background: var(--sidebar-bg-color) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px; /* Rounded corners for the whole sidebar */
+    padding: 20px; /* Add padding around all sides */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+/* Center Avatar */
+.site-avatar {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Widen Sidebar */
+@media (min-width: 768px) {
+    .container.extended {
+        --left-sidebar-max-width: 28%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container.extended {
+        --left-sidebar-max-width: 26%;
+        --right-sidebar-max-width: 20%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .main-container {
+        gap: 25px;
+    }
+
+    .container.extended {
+        --left-sidebar-max-width: 22%;
+        --right-sidebar-max-width: 18%;
+    }
+}
+
+/* Force sidebar to take full width allowed by max-width */
+@media (min-width: 768px) {
+    .sidebar.left-sidebar {
+        width: 100% !important;
+    }
+}
+
+/* Customize Site Meta (Container for Name and Description) */
+.site-meta {
+    background-color: var(--sidebar-inner-bg-color);
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%; /* Take full width of the parent (sidebar) which has padding */
+    box-sizing: border-box;
+    box-shadow: var(--sidebar-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Customize Author Name */
+.site-name {
+    background-color: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    width: auto !important;
+}
+
+/* Customize Description */
+.site-description {
+    background-color: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    width: auto !important;
+    white-space: pre-line; /* Allow newlines from YAML to render */
+    line-height: 1.6;
+}
+
+/* Customize Social Menu Background */
+.menu-social {
+    background-color: var(--sidebar-inner-bg-color);
+    padding: 12px 0; /* Vertical padding */
+    border-radius: 999px; /* Pill shape */
+    width: 100%; /* Full width */
+    box-sizing: border-box;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 15px !important;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    box-shadow: var(--sidebar-shadow);
+}
+
+/* Ensure icons inside social menu are visible and centered */
+.menu-social li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Page Background Image */
+body {
+    background-image: url('/img/background.png');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Add glass effect to main content area */
+main.main {
+    background: var(--sidebar-bg-color);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--sidebar-shadow);
+    transition: width 0.3s ease, max-width 0.3s ease; /* Add transition for smoothness */
+}
+
+/* Sidebar Toggle Button */
+.toggle-sidebar-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--card-background);
+    border-radius: 50%;
+    box-shadow: var(--shadow-l2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s, transform 0.3s;
+    color: var(--body-text-color);
+    border: 1px solid var(--card-separator-color);
+
+    &:hover {
+        transform: scale(1.1);
+        background-color: var(--card-background-selected);
+    }
+    
+    svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    /* Hide on mobile/small screens where sidebar is already hidden or stacked */
+    @media (max-width: 1023px) {
+        display: none;
+    }
+}
+
+/* Collapse Right Sidebar State */
+@media (min-width: 1024px) {
+    .container.main-container.right-sidebar-collapsed {
+        .right-sidebar {
+            display: none !important;
+        }
+        
+        /* 
+           Keep the original max-width of the container so the left sidebar 
+           stays in position and the main content expands to the right.
+        */
+        &.extended {
+             /* Remove any max-width override so it inherits from the standard .extended class */
+             /* max-width: 1280px; REMOVED */
+        }
+    }
+}
+
