@@ -189,3 +189,41 @@ main.main {
     }
 }
 
+
+
+// 归档页分类卡片渐变色样式
+// 仿照 Arknights 主题的多彩 Tag 效果
+
+.article-list--tile article {
+    // 确保文字在彩色背景下清晰可见
+    .article-details {
+        h2.article-title {
+            color: #fff !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+    }
+    
+    // 如果没有封面图，则应用渐变色背景
+    &:not(.has-image) {
+        // 定义一组渐变色
+        $gradients: (
+            linear-gradient(to right bottom, #a18cd1 0%, #fbc2eb 100%),
+            linear-gradient(to right bottom, #fbc2eb 0%, #a6c1ee 100%),
+            linear-gradient(to right bottom, #84fab0 0%, #8fd3f4 100%),
+            linear-gradient(to right bottom, #e0c3fc 0%, #8ec5fc 100%),
+            linear-gradient(to right bottom, #f093fb 0%, #f5576c 100%),
+            linear-gradient(to right bottom, #4facfe 0%, #00f2fe 100%),
+            linear-gradient(to right bottom, #43e97b 0%, #38f9d7 100%),
+            linear-gradient(to right bottom, #fa709a 0%, #fee140 100%),
+            linear-gradient(to right bottom, #667eea 0%, #764ba2 100%),
+            linear-gradient(to right bottom, #a1c4fd 0%, #c2e9fb 100%)
+        );
+
+        // 循环应用渐变色
+        @for $i from 1 through 10 {
+            &:nth-of-type(10n + #{$i}) {
+                background: nth($gradients, $i);
+            }
+        }
+    }
+}
