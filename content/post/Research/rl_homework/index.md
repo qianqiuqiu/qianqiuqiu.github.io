@@ -1,10 +1,12 @@
-+++
-title = "强化学习经典算法可视化"
-date = 2026-01-20
-image = "pig.jpg"
-categories=["Research"]
-tag =["Research"]
-+++
+---
+title: "强化学习经典算法可视化"
+date: 2025-12-22
+image: "pig.jpg"
+categories:
+    - Research
+tags:
+    - Research
+---
 
 郁老师的算法课程的强化学习六次作业以及重构。
 
