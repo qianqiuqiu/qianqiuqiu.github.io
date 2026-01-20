@@ -1,6 +1,6 @@
 ---
 title: "期末考后的荒芜假期"
-date: 2025-01-20
+date: 2026-01-20
 categories:
     - study
 tags:
