@@ -10,7 +10,7 @@ DefaultContentLanguage: en
 
 # Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
 # This will make .Summary and .WordCount behave correctly for CJK languages.
-hasCJKLanguage: false
+hasCJKLanguage: true
 
 languages:
     en:
@@ -62,7 +62,7 @@ params:
             src: img/avatar.png
 
     article:
-        math: false
+        math: true
         toc: true
         readingTime: true
         license:
@@ -277,6 +277,8 @@ markup:
                     inline:
                         - - \(
                           - \)
+                        - - $
+                          - $
         renderer:
             ## Set to true if you have HTML content inside Markdown
             unsafe: true
