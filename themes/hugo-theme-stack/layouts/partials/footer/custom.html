@@ -1,0 +1,201 @@
+{{ if .IsHome }}
+<!-- 开屏页遮罩层 -->
+<div id="splash-screen">
+    <div class="splash-content">
+        <h1 id="typing-text"></h1>
+        <div class="button-container">
+            <button id="start-button">START</button>
+        </div>
+    </div>
+    <div class="splash-bg"></div>
+</div>
+
+<style>
+    /* 强制隐藏默认的滚动条 */
+    body.splash-active {
+        overflow: hidden;
+    }
+
+    #splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        transition: opacity 1s ease, visibility 1s;
+        color: #fff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-transform: uppercase;
+    }
+
+    #splash-screen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .splash-content {
+        text-align: center;
+        z-index: 100;
+        padding: 20px;
+    }
+
+    #typing-text {
+        font-size: clamp(1.5rem, 5vw, 3.5rem);
+        margin-bottom: 3rem;
+        letter-spacing: 0.5rem;
+        font-weight: 300;
+        min-height: 1.2rem;
+        color: #fff;
+    }
+
+    #typing-text::after {
+        content: '_';
+        animation: cursor-blink 0.8s infinite;
+        margin-left: 5px;
+    }
+
+    @keyframes cursor-blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    .button-container {
+        min-height: 60px;
+    }
+
+    #start-button {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        color: #fff;
+        padding: 12px 40px;
+        font-size: 1.2rem;
+        letter-spacing: 0.3rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.5s ease;
+        animation: start-blink 2s infinite;
+        outline: none;
+        display: inline-block;
+    }
+
+    #start-button:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #fff;
+        transform: scale(1.05);
+    }
+
+    @keyframes start-blink {
+        0%, 100% { opacity: 0.3; text-shadow: 0 0 0px #fff; }
+        50% { opacity: 1; text-shadow: 0 0 10px #fff; }
+    }
+
+    .splash-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('/img/08.png') center/cover no-repeat; 
+        background-color: #0a0a0a;
+        z-index: 1;
+        opacity: 0.8;
+    }
+</style>
+
+<script>
+    (function() {
+        const splash = document.getElementById('splash-screen');
+        // 如果已经看过或者不是在首页，立即隐藏/移除
+        if (sessionStorage.getItem('splash-seen')) {
+            if (splash) splash.style.display = 'none';
+            return;
+        }
+
+        document.body.classList.add('splash-active');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const text = "WELCOME TO QIANQIU BLOG";
+            const typingText = document.getElementById('typing-text');
+            const startBtn = document.getElementById('start-button');
+            const splash = document.getElementById('splash-screen');
+            
+            if (!typingText || !startBtn || !splash) return;
+
+            let i = 0;
+            function typeWriter() {
+                if (i < text.length) {
+                    typingText.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                } else {
+                    setTimeout(() => {
+                        startBtn.style.opacity = '1';
+                    }, 500);
+                }
+            }
+
+            setTimeout(typeWriter, 800);
+
+            startBtn.addEventListener('click', () => {
+                splash.classList.add('hidden');
+                document.body.classList.remove('splash-active');
+                sessionStorage.setItem('splash-seen', 'true');
+            });
+        });
+    })();
+</script>
+{{ end }}
+
+<div class="zen-mode-btn" id="zenModeBtn" title="Zen Mode">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-window-maximize" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M3 16m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v2a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+        <path d="M4 12v-6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12h-3"></path>
+        <path d="M12 8h4v4"></path>
+    </svg>
+</div>
+
+<script>
+    (function() {
+        const btn = document.getElementById('zenModeBtn');
+        const toggleSidebarBtn = document.querySelector('.toggle-sidebar-btn');
+        const toc = document.querySelector('.widget--toc');
+
+        // Logic for Toggle Sidebar Button visibility
+        if (toggleSidebarBtn) {
+            if (toc) {
+                toggleSidebarBtn.style.display = 'flex';
+            } else {
+                toggleSidebarBtn.style.display = 'none';
+            }
+        }
+
+        if (!btn) return;
+
+        // 激活 Zen Mode
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // 防止立即触发 document 的点击复原
+            document.body.classList.add('zen-mode');
+        });
+
+        // 点击任意位置退出 Zen Mode
+        document.addEventListener('click', function(e) {
+            if (document.body.classList.contains('zen-mode')) {
+                document.body.classList.remove('zen-mode');
+            }
+        });
+
+        // 按 ESC 键也可以退出
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.body.classList.contains('zen-mode')) {
+                document.body.classList.remove('zen-mode');
+            }
+        });
+    })();
+</script>

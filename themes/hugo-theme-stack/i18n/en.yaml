@@ -4,6 +4,9 @@ toggleMenu:
 darkMode:
     other: Dark Mode
 
+lightMode:
+    other: Light Mode
+
 list:
     page:
         one: "{{ .Count }} page"

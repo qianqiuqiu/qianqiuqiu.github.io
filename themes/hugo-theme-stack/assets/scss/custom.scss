@@ -1,6 +1,6 @@
 /* Dark Mode Support and Custom Colors */
 :root {
-    --sidebar-bg-color: rgba(255, 255, 255, 0.6);
+    --sidebar-bg-color: rgba(255, 255, 255, 0.526);
     --sidebar-inner-bg-color: #fff;
     --sidebar-shadow: 0 2px 4px rgba(0,0,0,0.05);
 
@@ -118,7 +118,7 @@
 
 /* Page Background Image */
 body {
-    background-image: url('/img/background.png');
+    background-image: url('/img/background.jpg');
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
@@ -127,7 +127,7 @@ body {
 
 /* Add glass effect to main content area */
 main.main {
-    background: var(--sidebar-bg-color);
+    background: rgba(255, 255, 255, 0.71);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -135,18 +135,24 @@ main.main {
     box-shadow: var(--sidebar-shadow);
     transition: width 0.3s ease, max-width 0.3s ease; /* Add transition for smoothness */
 }
+[data-scheme="dark"] main.main {
+    background: rgba(0, 0, 0, 0.71); /* 深色模式：黑色 0.71 */
+    /* 或者使用深灰色以贴合常见暗色主题，例如： rgba(30, 30, 30, 0.71) */
+}
+
+
 
 /* Sidebar Toggle Button */
 .toggle-sidebar-btn {
     position: fixed;
-    bottom: 30px;
+    bottom: 90px;
     right: 30px;
     width: 50px;
     height: 50px;
     background-color: var(--card-background);
     border-radius: 50%;
     box-shadow: var(--shadow-l2);
-    display: flex;
+    display: none; /* Default hidden, shown via JS if TOC exists */
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -167,7 +173,7 @@ main.main {
     
     /* Hide on mobile/small screens where sidebar is already hidden or stacked */
     @media (max-width: 1023px) {
-        display: none;
+        display: none !important;
     }
 }
 
@@ -227,3 +233,65 @@ main.main {
         }
     }
 }
+
+// Zen Mode (Hide all UI) Button
+// Positioned above the sidebar toggle or light mode switch
+.zen-mode-btn {
+    position: fixed;
+    bottom: 30px; /* 30px (existing button) + 50px (height) + 10px (gap) */
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--card-background);
+    border-radius: 50%;
+    box-shadow: var(--shadow-l2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
+    color: var(--body-text-color);
+    border: 1px solid var(--card-separator-color);
+
+    &:hover {
+        transform: scale(1.1);
+        background-color: var(--card-background-selected);
+    }
+
+    svg {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* Hide on mobile if desired, matching sidebar toggle behavior */
+    @media (max-width: 1023px) {
+        display: none;
+    }
+}
+
+// State: When Zen Mode is active
+body.zen-mode {
+    overflow: hidden; /* Optional: Prevent scrolling while in view mode */
+    
+    /* Hide all main interface elements */
+    .main-container,
+    .toggle-sidebar-btn,
+    .zen-mode-btn {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transition: opacity 0.5s ease;
+    }
+
+    /* Hide any other fixed widgets if necessary */
+    #darkModeToggle { 
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+}
+
