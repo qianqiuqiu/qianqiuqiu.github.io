@@ -1,22 +1,58 @@
 # Hugo default output
-/public
-/resources/_gen
+/public/
+/resources/_gen/
+/resources/
 .hugo_build.lock
 hugo_stats.json
 
 # System Files
 .DS_Store
 Thumbs.db
+*.tmp
+*.temp
+*.bak
+*~
 
 # VS Code
 .vscode/
+*.code-workspace
 
 # Node/NPM (if used by theme or dev tools)
 node_modules/
 package-lock.json
 yarn.lock
+.pnpm-debug.log*
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# 文档
+网站架构文档.md
+CLAUDE.md
+
+# 本地自动化脚本
+git-push.bat
+git-push.ps1
+
+# Obsidian 插件配置 (不需要上传)
+content/post/.claude/
+content/post/.obsidian/
+.obsidian/
+
+# 编辑器临时文件
+*.swp
+*.swo
+.idea/
+
+# 操作系统生成的文件
+desktop.ini
+.Spotlight-V100
+.Trashes
