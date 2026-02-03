@@ -16,3 +16,7 @@ math: true
 Fine-tuning Qwen-1.5B with LoRA for Chinese Sentiment Analysis
 
 lc：230
+
+太抽象了，提交到github后，不自动触发action执行构建工作，我排查了老半天，是不是.github\workflows\deploy.yaml不小心被改了，半小时后感觉会不会是github的问题，结果打开了https://www.githubstatus.com/看到了这个
+
+![](github-status.png)
