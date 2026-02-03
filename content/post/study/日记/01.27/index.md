@@ -2,9 +2,9 @@
 title: "转码学习day7"
 date: 2026-01-27
 categories: 
-  - study
+  - diary
 tag: 
-  - study
+  - diary
 math: true 
 ---
 
