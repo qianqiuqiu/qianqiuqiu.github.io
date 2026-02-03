@@ -3,9 +3,9 @@ title: "Have a little break"
 date: 2026-01-25
 image: 1.jpg
 categories: 
-  - study
+  - diary
 tag: 
-  - study
+  - diary
 math: true 
 ---
 

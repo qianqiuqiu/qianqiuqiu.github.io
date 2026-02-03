@@ -197,12 +197,12 @@ menu:
           params:
               icon: home
 
-        - identifier: study
-          name: Study
-          url: /categories/study/
+        - identifier: diary
+          name: Diary
+          url: /categories/diary/
           weight: 2
           params:
-              icon: study
+              icon: diary
 
         - identifier: research
           name: Research
