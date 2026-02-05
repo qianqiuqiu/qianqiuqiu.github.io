@@ -10,4 +10,4 @@ tags:
 
 https://github.com/qianqiuqiu/Fine-tuning-Qwen-1.5B-with-LoRA-for-Chinese-Sentiment-Analysis
 
-第一个正儿八经写的项目，之前那个复现minimind不算。有正经写报告。记录于[2.5的日记](https://qianqiuqiu.xyz/p/2.5/)中。
+第一个正儿八经写的项目，之前那个复现minimind不算。有正经写报告。记录于[2.5的日记](https://qianqiuqiu.xyz/p/%E8%BD%AC%E7%A0%81day16%E5%AE%8C%E6%88%90%E4%BA%86qwen-lora%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E9%A1%B9%E7%9B%AE/)中。
