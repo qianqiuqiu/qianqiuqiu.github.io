@@ -1,11 +1,11 @@
 ---
-title: "Qwen 1.5B LoRA微调 中文情感识别"
-date: 2025-12-22
-image: "pig.png"
+title: Qwen 1.5B LoRA微调 中文情感识别
+date: 2026-02-05
+image: pig.png
 categories:
-    - Research
+  - Research
 tags:
-    - Research
+  - Research
 ---
 
 https://github.com/qianqiuqiu/Fine-tuning-Qwen-1.5B-with-LoRA-for-Chinese-Sentiment-Analysis
