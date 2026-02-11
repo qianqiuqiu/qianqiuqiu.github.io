@@ -1,7 +1,6 @@
 ---
 title: "转码学习day6"
 date: 2026-01-26
-image: 1.webp
 categories: 
   - diary
 tag: 
