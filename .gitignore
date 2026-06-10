@@ -1,4 +1,25 @@
-.DS_Store
-.hugo_build.lock
-resources/_gen/
+# Hugo build output
 public/
+resources/_gen/
+.hugo_build.lock
+
+# Hugo cache
+.hugo_cache/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# editors
+.idea/
+.vscode/
+*.swp
+
+# node (if a toolchain is ever added)
+node_modules/
+
+# local env
+.env
+.env.*
