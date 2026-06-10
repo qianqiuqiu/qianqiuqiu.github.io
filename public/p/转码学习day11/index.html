@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>转码学习day11 · qianqiu</title>
+<meta name="description" content="lc：98、51 熬夜看小说起晚了。晚上看了一下claudecode在国内怎么配置的问题，不得不说还真是八仙过海各显神通，什么法子都来了。CC官方防大陆也和防火一样生怕 claudecode在大陆能用。 配了一个小时差不多弄完了，然后把平时写日记的typora换成了obsidian并加上了 …">
+<link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day11/">
+
+<link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
+<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav-row">
+    <a class="site-name" href="/">qianqiu<span class="cursor">_</span></a>
+    <nav class="site-nav">
+      
+      
+      <a href="/">home</a>
+      
+      <a href="/categories/diary/">diary</a>
+      
+      <a href="/categories/research/">research</a>
+      
+      <a href="/categories/entertain/">entertain</a>
+      
+      <a href="/archives/">archives</a>
+      
+      <a href="/search/">search</a>
+      
+      <a href="/about/">about</a>
+      
+      <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<article class="post">
+  <header class="post-head">
+    <h1>转码学习day11</h1>
+    <div class="post-meta">
+      <time datetime="2026-01-31">2026-01-31</time>
+       · <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">转码日记</a>
+      
+    </div>
+  </header>
+  <div class="content">
+    <p>lc：98、51
+熬夜看小说起晚了。晚上看了一下claudecode在国内怎么配置的问题，不得不说还真是八仙过海各显神通，什么法子都来了。CC官方防大陆也和防火一样生怕 claudecode在大陆能用。
+配了一个小时差不多弄完了，然后把平时写日记的typora换成了obsidian并加上了claudecode插件。
+开始做第一个项目：</p>
+<h2 id="fine-tuning-qwen-15b-with-lora-for-chinese-sentiment-analysis">Fine-tuning Qwen-1.5B with LoRA for Chinese Sentiment Analysis</h2>
+<p>用Qwen是因为它的中文能力较强，虽然说事实上它支持超过29种语言的<strong>多语言</strong>。符合我们用lora锦上添花的过程，而且它显存友好，部署起来并不会特别吃力。</p>
+<table>
+	<thead>
+			<tr>
+					<th>特性</th>
+					<th>Qwen</th>
+					<th>BERT</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>架构</td>
+					<td>Decoder-Only</td>
+					<td>Encoder-Only</td>
+			</tr>
+			<tr>
+					<td>注意力</td>
+					<td>Causal (单向)</td>
+					<td>Bidirectional (双向)</td>
+			</tr>
+			<tr>
+					<td>预训练目标</td>
+					<td>自回归生成</td>
+					<td>掩码语言建模</td>
+			</tr>
+			<tr>
+					<td>分类时使用</td>
+					<td>最后一个 token</td>
+					<td>[CLS] token</td>
+			</tr>
+	</tbody>
+</table>
+<p>在GPT之前分类任务主流就是用bert，由谷歌2018年提出。
+Decoder-Only 模型做分类时，通常取<strong>序列最后一个位置</strong>的隐藏状态，通过一个线性分类头输出类别概率。和生成式的区别仅仅是最后过的头不同，lora_config = LoraConfig(
+task_type=TaskType.SEQ_CLS,  # 序列分类任务
+&hellip;
+)
+不看视频，自己动起手来才发现github的autoxxx还是有点花样的，能够自己帮你处理很多结构。
+比如说Qwen2.5-1.5B本来是文本生成的模型，如果用AutoModelForSequenceClassification去下载它，模型结构会自动调整：</p>
+<h3 id="automodelforsequenceclassification-分类任务"><strong>AutoModelForSequenceClassification</strong> (分类任务)</h3>
+<table>
+	<thead>
+			<tr>
+					<th>层级</th>
+					<th>组件名称</th>
+					<th>状态</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Qwen Transformer</td>
+					<td>预训练好的（和上面一样）</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>Score Head (2)</td>
+					<td>随机初始化的（num_labels）</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="automodelforcausallm-生成任务"><strong>AutoModelForCausalLM</strong> (生成任务)</h3>
+<table>
+	<thead>
+			<tr>
+					<th>层级</th>
+					<th>组件名称</th>
+					<th>状态</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>1</td>
+					<td>Qwen Transformer</td>
+					<td>预训练好的</td>
+			</tr>
+			<tr>
+					<td>2</td>
+					<td>LM Head (151936)</td>
+					<td>预训练好的（词表大小）</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>关键区别</strong>：</p>
+<ul>
+<li><strong>分类任务</strong>：最后一层是 Score Head，只输出 2 个分数（对应&quot;好&quot;/&ldquo;坏&rdquo;）</li>
+<li><strong>生成任务</strong>：最后一层是 LM Head，输出 151936 个分数（词表中的每个词）</li>
+</ul>
+<p>分类任务就不是从超大词表里取出预测的下一个结果了，而是像从两个词的词表中抽一个，也就是&quot;好&quot;或者&quot;坏&quot;。</p>
+<p>当然，tokenizer还是要的，虽然最后不用根据它把数据映射回真实词，直接用0、1二分类就行，但是Embedding还是要用tokenizer把数据变成词向量。
+今天最后一个工作，理解一下数据预处理。</p>
+<h3 id="原始文本">原始文本</h3>
+<p>{&ldquo;text&rdquo;: &ldquo;这家酒店环境非常好，服务态度也很棒！&rdquo;, &ldquo;label&rdquo;: 1}
+{&ldquo;text&rdquo;: &ldquo;服务态度太差了，再也不会来了。&rdquo;, &ldquo;label&rdquo;: 0}
+考虑到我们需要的是连贯的文字和可理解的内容。乱码、多余空格、重复标点，都是&quot;脏&quot;的数据，需要去除，但是内容量过于巨大，不可能一个一个看。所以采用下面的操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 1. 统一空白字符</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>  <span class="c1"># 多个空格/换行 → 单个空格</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 2. 移除控制字符</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[\x00-\x1f\x7f-\x9f]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>  <span class="c1"># 删除不可见字符</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 3. 标点符号去重</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([。！？，、；：])\1+&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>  <span class="c1"># &#34;好好好！！！&#34; → &#34;好好好！&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 4. 去除首尾空白</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第一个传参位置寻找要匹配的字符，第二个位置是替换的结果，第三个位置传入的是文本变量，除此之外还可以传入count，表示最多替换次数，不传则替换所有。flags，正则表达式标志，比如忽略大小写之类的操作可以由它指定。</p>
+<h3 id="分词处理">分词处理</h3>
+<p>模型不能直接理解文字，需要转换成数字</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">preprocess_function</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 1. 清洗文本</span>
+</span></span><span class="line"><span class="cl">    <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">[</span><span class="s2">&#34;text&#34;</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 2. 分词：文字 → 数字</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tokenized</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">texts</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">padding</span><span class="o">=</span><span class="s2">&#34;max_length&#34;</span><span class="p">,</span>    <span class="c1"># 填充到固定长度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>         <span class="c1"># 超长就截断</span>
+</span></span><span class="line"><span class="cl">        <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">,</span>   <span class="c1"># 最大长度256</span>
+</span></span><span class="line"><span class="cl">        <span class="n">return_tensors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>     <span class="c1"># 返回Python列表</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以 &ldquo;这家酒店很好&rdquo; 为例：</p>
+<p>词汇切分: &ldquo;这家酒店很好&rdquo; → [&ldquo;这家&rdquo;, &ldquo;酒店&rdquo;, &ldquo;很&rdquo;, &ldquo;好&rdquo;]
+转换ID: [&ldquo;这家&rdquo;, &ldquo;酒店&rdquo;, &ldquo;很&rdquo;, &ldquo;好&rdquo;] → [1234, 5678, 9012, 3456]
+添加特殊token: [101, 1234, 5678, 9012, 3456, 102] (101=开始，102=结束)，4个转换的token，加俩特殊token
+填充: 如果不足256长度，用0填充到256
+结果包含：</p>
+<ul>
+<li><code>input_ids</code>: <code>[101, 1234, 5678, 9012, 3456, 102, 0, 0, ...]</code> (256个数字)</li>
+<li><code>attention_mask</code>: <code>[1, 1, 1, 1, 1, 1, 0, 0, ...]</code> (1=真实内容，0=填充)</li>
+<li><a href="vscode-file://vscode-app/d:/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-browser/workbench/workbench.html">labels</a>: <code>1</code> (情感标签)
+接着用一个函数</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_tokenized_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 定义处理函数</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">tokenize_fn</span><span class="p">(</span><span class="n">examples</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">preprocess_function</span><span class="p">(</span><span class="n">examples</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">max_length</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 并行处理所有数据</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tokenized_dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tokenize_fn</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">batched</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># 批量处理，更快</span>
+</span></span><span class="line"><span class="cl">        <span class="n">num_proc</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>            <span class="c1"># 4个进程并行</span>
+</span></span><span class="line"><span class="cl">        <span class="n">remove_columns</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>   <span class="c1"># 删除原始text列，只保留数字</span>
+</span></span><span class="line"><span class="cl">        <span class="n">desc</span><span class="o">=</span><span class="s2">&#34;Tokenizing dataset&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>批量调用刚刚的预处理过程即可,dataset.map封装好了最后的组装环节，直接输入各个参数即可。</p>
+<h3 id="完整流程">完整流程</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">原始数据</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;text&#34;</span><span class="p">:</span> <span class="s2">&#34;这家酒店很好&#34;</span><span class="p">,</span> <span class="s2">&#34;label&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">↓</span> <span class="n">clean_text</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;这家酒店很好&#34;</span> <span class="p">(</span><span class="n">清洗后</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">↓</span> <span class="n">tokenizer</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;input_ids&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">101</span><span class="p">,</span> <span class="mi">1234</span><span class="p">,</span> <span class="mi">5678</span><span class="p">,</span> <span class="mi">9012</span><span class="p">,</span> <span class="mi">3456</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># 256个</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;attention_mask&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>           <span class="c1"># 256个</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;labels&#34;</span><span class="p">:</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">↓</span> <span class="n">输入模型训练</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="why-这么处理">Why 这么处理</h3>
+<ol>
+<li><strong>统一格式</strong>: 所有句子都变成256长度的数字数组</li>
+<li><strong>批量处理</strong>: 可以一次性处理多个样本，提高效率</li>
+<li><strong>模型理解</strong>: 模型只能处理数字，不能直接理解文字</li>
+<li><strong>内存对齐</strong>: 固定长度便于GPU并行计算
+今天先到这吧，等着晚点看cs2的2026年的森载大战了。</li>
+</ol>
+
+  </div>
+  
+  
+  <div class="post-tags">
+    <a href="/tags/diary/">#diary</a> 
+  </div>
+  
+  
+  <nav class="post-nav">
+    <a class="prev" href="/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day12/">← 转码学习day12</a>
+    <a class="next" href="/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day10/">转码学习day10 →</a>
+  </nav>
+  
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© 2025–2026 Qianqiu</span>
+    <span class="foot-links">
+      <a href="https://github.com/qianqiuqiu" target="_blank" rel="noopener">github</a><a href="/img/wechat.jpg">wechat</a>
+      <a href="/index.xml">rss</a>
+    </span>
+  </div>
+</footer>
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var r=document.documentElement;
+  var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
+  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+});
+</script>
+</body>
+</html>

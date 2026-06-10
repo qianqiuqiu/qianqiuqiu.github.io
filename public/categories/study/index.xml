@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Study on qianqiu</title>
+		<link>http://localhost:1313/categories/study/</link>
+		<description>Recent content in Study on qianqiu</description>
+		<generator>Hugo</generator>
+		<language>en</language>
+		
+		
+		
+			<copyright>Qianqiu</copyright>
+		
+		
+			<lastBuildDate>Tue, 20 Jan 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="http://localhost:1313/categories/study/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>期末考后的荒芜假期</title>
+				<link>http://localhost:1313/p/%E6%9C%9F%E6%9C%AB%E8%80%83%E5%90%8E%E7%9A%84%E8%8D%92%E8%8A%9C%E5%81%87%E6%9C%9F/</link>
+				<pubDate>Tue, 20 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E6%9C%9F%E6%9C%AB%E8%80%83%E5%90%8E%E7%9A%84%E8%8D%92%E8%8A%9C%E5%81%87%E6%9C%9F/</guid>
+				<description>&lt;p&gt;期末考完没怎么学习，也没想着回家，最近想找个实习也是困难重重。&lt;/p&gt;&#xA;&lt;p&gt;经常是被已读不回，面试也是被KPI面，面试官的敷衍让人实在有点恼火。&lt;/p&gt;&#xA;&lt;p&gt;父亲早在一周前就问我要不要回家了，嘴上嘟囔着早点回家多双筷子，比我在北京吃饭省钱。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>与暑假重逢有感</title>
+				<link>http://localhost:1313/p/%E4%B8%8E%E6%9A%91%E5%81%87%E9%87%8D%E9%80%A2%E6%9C%89%E6%84%9F/</link>
+				<pubDate>Wed, 09 Jul 2025 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E4%B8%8E%E6%9A%91%E5%81%87%E9%87%8D%E9%80%A2%E6%9C%89%E6%84%9F/</guid>
+				<description>&lt;p&gt;（主要是写给自己看的，所以看起来像无意义流水账，实际上——它就是）&lt;/p&gt;&#xA;&lt;p&gt;去年在图书馆枯坐了一年，缺乏了很多运动，紧赶慢赶地完成了考研初试，还算顺利。&lt;/p&gt;&#xA;&lt;p&gt;本以为初试之后会坦然地享受闲暇，却发现和我想的不太一样，心理上无法完全适应没事做的日子。&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

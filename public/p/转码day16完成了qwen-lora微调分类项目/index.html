@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>转码day16：完成了qwen lora微调分类项目 · qianqiu</title>
+<meta name="description" content="问题：Colab 备份失败 Colab 的 notebook 保存备份时输出文件的顺序出错，导致虽然能看到 wandb loss 下降的过程，但输出文件中的 LoRA 矩阵权重为空。
+解决方案：迁移到 AutoDL 由于本地环境配置繁琐且性能不足，直接使用 AutoDL 云服务：
+">
+<link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81day16%E5%AE%8C%E6%88%90%E4%BA%86qwen-lora%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E9%A1%B9%E7%9B%AE/">
+
+<link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
+<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav-row">
+    <a class="site-name" href="/">qianqiu<span class="cursor">_</span></a>
+    <nav class="site-nav">
+      
+      
+      <a href="/">home</a>
+      
+      <a href="/categories/diary/">diary</a>
+      
+      <a href="/categories/research/">research</a>
+      
+      <a href="/categories/entertain/">entertain</a>
+      
+      <a href="/archives/">archives</a>
+      
+      <a href="/search/">search</a>
+      
+      <a href="/about/">about</a>
+      
+      <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<article class="post">
+  <header class="post-head">
+    <h1>转码day16：完成了qwen lora微调分类项目</h1>
+    <div class="post-meta">
+      <time datetime="2026-02-05">2026-02-05</time>
+       · <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">转码日记</a>
+      
+    </div>
+  </header>
+  <div class="content">
+    <h3 id="问题colab-备份失败">问题：Colab 备份失败</h3>
+<p>Colab 的 notebook 保存备份时输出文件的顺序出错，导致虽然能看到 wandb loss 下降的过程，但输出文件中的 LoRA 矩阵权重为空。</p>
+<h3 id="解决方案迁移到-autodl">解决方案：迁移到 AutoDL</h3>
+<p>由于本地环境配置繁琐且性能不足，直接使用 AutoDL 云服务：</p>
+<ul>
+<li>本地笔记本配置慢、运行吃力</li>
+<li>AutoDL 半小时内完成环境搭建和训练启动</li>
+<li>等待训练完成后，将结果拉取至本地进行推理和效果评估</li>
+</ul>
+<h3 id="环境修复">环境修复</h3>
+<p>本地的 torch 环境因昨天安装的版本冲突而损坏，最终采取完全重装方案：</p>
+<ul>
+<li>卸载所有 Python 和 conda 环境</li>
+<li>重新安装并配置完整环境</li>
+<li>成功运行评测任务</li>
+</ul>
+<hr>
+<h2 id="评测结果">评测结果</h2>
+<p><img src="Pasted_image_20260205174050.png" alt=""></p>
+<h3 id="基础指标">基础指标</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">准确率 = (预测正确的样本数) / (总样本数)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">精确率 = 真阳性 (TP) / (真阳性 (TP) + 假阳性 (FP))
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">召回率 = 真阳性 (TP) / (真阳性 (TP) + 假阴性 (FN))
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">F1 = 2 × (精确率 × 召回率) / (精确率 + 召回率)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>F1 分数</strong>是精确率和召回率的平衡指标：</p>
+<ul>
+<li>值越接近 1，模型综合表现越好</li>
+<li><strong>为什么叫&quot;调和平均&quot;</strong>：它不像算术平均那样简单平均，而是对极端值更敏感。如果精确率或召回率有一个很低，F1 会明显下降。</li>
+</ul>
+<h3 id="auc-roc-area-under-the-curve---receiver-operating-characteristic">AUC-ROC (Area Under the Curve - Receiver Operating Characteristic)</h3>
+<p><strong>定义</strong>：ROC 曲线下方的面积，衡量模型区分正负类的能力。</p>
+<p><img src="Pasted_image_20260205180016.png" alt=""></p>
+<p><strong>ROC 曲线</strong>：</p>
+<ul>
+<li>X 轴：假阳性率 (FPR) = 假阳性 / (假阳性 + 真阴性)</li>
+<li>Y 轴：真阳性率 (TPR) = 真阳性 / (真阳性 + 假阴性)</li>
+<li>曲线从 (0, 0) 到 (1, 1)，越靠左上角越好</li>
+</ul>
+<p><strong>结果</strong>：98.19%</p>
+<p><strong>AUC 值的含义</strong>：</p>
+<ul>
+<li>AUC = 1：完美分类器</li>
+<li>AUC = 0.5：随机猜测</li>
+<li>AUC &lt; 0.5：比随机还差</li>
+</ul>
+<h4 id="roc-曲线的理解">ROC 曲线的理解</h4>
+<p>ROC 曲线<strong>不是一个模型画出来的一个点</strong>，而是：</p>
+<blockquote>
+<p><strong>同一个模型，在不同决策阈值下的一系列 (FPR, TPR) 组合</strong></p>
+</blockquote>
+<p>假设模型输出一个 score ∈ [0, 1]：</p>
+<ul>
+<li>
+<p><strong>阈值很高</strong>（如 0.9）：</p>
+<ul>
+<li>很少预测正面</li>
+<li>→ FPR 低，TPR 也低</li>
+</ul>
+</li>
+<li>
+<p><strong>阈值很低</strong>（如 0.1）：</p>
+<ul>
+<li>很多都预测正面</li>
+<li>→ TPR 高，但 FPR 也高</li>
+</ul>
+</li>
+</ul>
+<p>把阈值从 1 → 0 扫一遍，就得到了这条曲线。</p>
+<hr>
+<p><img src="Pasted_image_20260205174422.png" alt=""></p>
+<h3 id="ece-expected-calibration-error---期望校准误差">ECE (Expected Calibration Error - 期望校准误差)</h3>
+<p><strong>定义</strong>：衡量模型预测的置信度与实际准确率之间的校准程度。</p>
+<p><strong>结果</strong>：0.4880（值越小越好）</p>
+<p><strong>含义</strong>：如果模型说&quot;我有 90% 的把握是对的&quot;，那么它应该有 90% 的时候确实是对的。ECE 衡量这种&quot;说对&quot;和&quot;做对&quot;之间的差距。</p>
+<p><strong>分析</strong>：这项指标结果较差，因为置信度接近 0.5，而实际上大部分预测都正确。模型在能力上往往不够自信，结合高置信度错误（16 个）来看，它在某些不该自信的地方反而过度自信。这可能是由于数据量较小、微调不足导致的。</p>
+<hr>
+<h3 id="鲁棒性评分-robustness-score">鲁棒性评分 (Robustness Score)</h3>
+<p><strong>结果</strong>：63.0/100</p>
+<p><strong>含义</strong>：综合衡量模型在各种边界情况下的表现，包括：</p>
+<ul>
+<li>短评正面/负面</li>
+<li>反语（如&quot;呵呵，绝了&quot;）</li>
+<li>否定词堆叠（如&quot;不差&quot;）</li>
+<li>网络流行语（如&quot;yyds&quot;、&ldquo;摆烂&rdquo;）</li>
+<li>错别字</li>
+<li>长文本/超长文本</li>
+<li>表情符号</li>
+<li>空文本等边缘情况</li>
+</ul>
+<p><strong>为什么模型鲁棒性只有 63 分</strong>：</p>
+<p>模型在常规测试集上准确率达到 95%，但在鲁棒性测试中得分较低，说明：</p>
+<ul>
+<li>对常见的网络流行语和反语识别不佳</li>
+<li>对短评负面和表情符号的判断较弱</li>
+<li>训练数据没有覆盖这些特殊场景</li>
+</ul>
+<p>这并不是严重问题，只是训练集未覆盖这些场景，相信继续微调后会有改善。</p>
+<hr>
+<p><img src="Pasted_image_20260205182230.png" alt=""></p>
+<p>混淆矩阵的对称性良好，说明模型对正面和负面情况都有较好的识别能力。</p>
+<p>对比<strong>冻结的Qwen基础模型+训练后的分类头</strong> vs <strong>LoRA微调的Qwen+训练后的分类头</strong>
+结果如下：
+<img src="Pasted_image_20260205185957.png" alt=""></p>
+<p>召回率冻结qwen反而更高，实际上是没意义的。是一个<strong>非常典型的分类器偏向问题</strong>。
+冻结的模型<strong>几乎把所有样本都预测为&quot;正面&quot;</strong> 所以才出现了召回率几乎拉满的情况。
+总而言之，从F1分数和准确率各个地方来看，LoRA对模型的微调是十分成功的，确实赋予了模型识别好评差评的能力。
+这个项目就先做到这了，1.5B的模型能力确实有限，对于极限情况的模棱两可评价确实还有局限，对于网络用语流行词啥的，我相信加入数据集训练一下也是可以改善识别率的，但对我个人而言，已经直观地看见了LoRA的效果，走完了一整个流程，这就够了。</p>
+
+  </div>
+  
+  
+  <div class="post-tags">
+    <a href="/tags/diary/">#diary</a> 
+  </div>
+  
+  
+  <nav class="post-nav">
+    <a class="prev" href="/p/qwen-1.5b-lora%E5%BE%AE%E8%B0%83-%E4%B8%AD%E6%96%87%E6%83%85%E6%84%9F%E8%AF%86%E5%88%AB/">← Qwen 1.5B LoRA微调 中文情感识别</a>
+    <a class="next" href="/p/%E8%BD%AC%E7%A0%81day15colab%E6%94%B6%E5%B0%BE/">转码day15：colab收尾 →</a>
+  </nav>
+  
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© 2025–2026 Qianqiu</span>
+    <span class="foot-links">
+      <a href="https://github.com/qianqiuqiu" target="_blank" rel="noopener">github</a><a href="/img/wechat.jpg">wechat</a>
+      <a href="/index.xml">rss</a>
+    </span>
+  </div>
+</footer>
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var r=document.documentElement;
+  var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
+  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+});
+</script>
+</body>
+</html>

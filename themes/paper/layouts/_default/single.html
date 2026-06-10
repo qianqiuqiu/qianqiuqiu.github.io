@@ -1,0 +1,35 @@
+{{ define "main" }}
+<article class="post">
+  <header class="post-head">
+    <h1>{{ .Title }}</h1>
+    <div class="post-meta">
+      {{ if not .Date.IsZero }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>{{ end }}
+      {{ with .Params.categories }}{{ range . }} · <a href="{{ printf "/categories/%s/" (. | urlize) | relLangURL }}">{{ . }}</a>{{ end }}{{ end }}
+      {{ if .Params.readingTime }} · {{ .ReadingTime }} min{{ end }}
+    </div>
+  </header>
+  <div class="content">
+    {{ .Content }}
+  </div>
+  {{ $tags := .Params.tags | default .Params.tag }}
+  {{ with $tags }}
+  <div class="post-tags">
+    {{ range . }}<a href="{{ printf "/tags/%s/" (. | urlize) | relLangURL }}">#{{ . }}</a> {{ end }}
+  </div>
+  {{ end }}
+  {{ if eq .Type "post" }}
+  <nav class="post-nav">
+    {{ with .NextInSection }}<a class="prev" href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}
+    {{ with .PrevInSection }}<a class="next" href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ else }}<span></span>{{ end }}
+  </nav>
+  {{ end }}
+</article>
+<div class="read-progress" aria-hidden="true"></div>
+<script>
+(function(){
+  var bar=document.querySelector(".read-progress"),h=document.documentElement;
+  function u(){var max=h.scrollHeight-h.clientHeight;bar.style.transform="scaleX("+(max>0?h.scrollTop/max:0)+")"}
+  addEventListener("scroll",u,{passive:true});addEventListener("resize",u,{passive:true});u();
+})();
+</script>
+{{ end }}

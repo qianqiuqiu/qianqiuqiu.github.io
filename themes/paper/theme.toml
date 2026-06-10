@@ -1,0 +1,7 @@
+name = "Paper"
+license = "MIT"
+description = "Flat, monospace-flavored, single-column blog theme. Warm paper light mode, deep slate dark mode."
+min_version = "0.125.0"
+
+[author]
+  name = "Qianqiu & Claude"

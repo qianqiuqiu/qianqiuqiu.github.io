@@ -1,0 +1,39 @@
+{{ define "main" }}
+<header class="page-head"><h1>{{ .Title }}</h1></header>
+<input id="search-box" class="search-box" type="search" placeholder="type to search…" autocomplete="off" autofocus>
+<p id="search-stat" class="search-stat"></p>
+<ul id="search-results" class="post-list"></ul>
+<script>
+(function(){
+  var box=document.getElementById("search-box"),
+      out=document.getElementById("search-results"),
+      stat=document.getElementById("search-stat"),
+      idx=null;
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function load(cb){
+    if(idx)return cb();
+    fetch({{ "index.json" | relLangURL }}).then(function(r){return r.json()}).then(function(d){idx=d;cb()});
+  }
+  function render(q){
+    q=q.trim().toLowerCase();
+    out.innerHTML="";stat.textContent="";
+    if(!q)return;
+    var hits=idx.filter(function(p){
+      return p.title.toLowerCase().indexOf(q)>-1||p.content.toLowerCase().indexOf(q)>-1;
+    });
+    stat.textContent=hits.length+" result"+(hits.length===1?"":"s");
+    hits.slice(0,50).forEach(function(p){
+      var li=document.createElement("li");
+      li.className="post-item";
+      li.innerHTML='<span class="post-date">'+p.date+'</span><span class="post-line"><a class="post-title" href="'+p.url+'">'+esc(p.title)+"</a></span>";
+      out.appendChild(li);
+    });
+  }
+  var t;
+  box.addEventListener("input",function(){
+    clearTimeout(t);
+    t=setTimeout(function(){load(function(){render(box.value)})},120);
+  });
+})();
+</script>
+{{ end }}

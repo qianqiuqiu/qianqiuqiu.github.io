@@ -1,0 +1,13 @@
+<ul class="post-list">
+{{ range $i, $p := . }}
+{{ with $p }}
+  <li class="post-item" style="--i: {{ $i }}">
+    <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
+    <span class="post-line">
+      <a class="post-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ with .Params.categories }}{{ range first 1 . }}<a class="post-cat" href="{{ printf "/categories/%s/" (. | urlize) | relLangURL }}">{{ . }}</a>{{ end }}{{ end }}
+    </span>
+  </li>
+{{ end }}
+{{ end }}
+</ul>

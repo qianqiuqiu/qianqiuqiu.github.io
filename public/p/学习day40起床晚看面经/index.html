@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习day40：起床晚，看面经 · qianqiu</title>
+<meta name="description" content="lc：70
+vLLM 为什么能加速生成？ 注意VLLM是推理部署阶段的加速，提高吞吐率。 核心技术是 PagedAttention： 传统 KV Cache 会给每个请求预分配一块连续显存，空间浪费严重（碎片化）。vLLM 借鉴操作系统虚拟内存的分页思想，把 KV Cache 切成小块动态分配，显存 …">
+<link rel="canonical" href="http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day40%E8%B5%B7%E5%BA%8A%E6%99%9A%E7%9C%8B%E9%9D%A2%E7%BB%8F/">
+
+<link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
+<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav-row">
+    <a class="site-name" href="/">qianqiu<span class="cursor">_</span></a>
+    <nav class="site-nav">
+      
+      
+      <a href="/">home</a>
+      
+      <a href="/categories/diary/">diary</a>
+      
+      <a href="/categories/research/">research</a>
+      
+      <a href="/categories/entertain/">entertain</a>
+      
+      <a href="/archives/">archives</a>
+      
+      <a href="/search/">search</a>
+      
+      <a href="/about/">about</a>
+      
+      <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<article class="post">
+  <header class="post-head">
+    <h1>学习day40：起床晚，看面经</h1>
+    <div class="post-meta">
+      <time datetime="2026-03-01">2026-03-01</time>
+       · <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">转码日记</a>
+      
+    </div>
+  </header>
+  <div class="content">
+    <p>lc：70</p>
+<h2 id="vllm-为什么能加速生成"><strong>vLLM 为什么能加速生成？</strong></h2>
+<p>注意VLLM是推理部署阶段的加速，提高吞吐率。
+核心技术是 <strong>PagedAttention</strong>：
+传统 KV Cache 会给每个请求预分配一块连续显存，空间浪费严重（碎片化）。vLLM 借鉴操作系统虚拟内存的分页思想，把 KV Cache 切成小块动态分配，显存利用率大幅提升，从而支持更大 batch size。
+在 GRPO 场景里，每步要对同一个 prompt 生成 G=4（或更多）个回复，<strong>生成阶段是最大瓶颈</strong>。</p>
+<h2 id="梯度检查点为什么能节省显存">梯度检查点为什么能节省显存</h2>
+<p>标准训练中，反向传播需要用到每一层的**激活值（activations）**来计算梯度。对于一个 L 层的 Transformer，前向传播会把所有层的激活值全部保留在显存里，显存消耗与层数成正比</p>
+<p>梯度检查点的做法
+它节省<strong>中间激活值</strong>，而不是模型参数本身。</p>
+<table>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>梯度检查点</th>
+					<th>梯度累积（Gradient Accumulation）</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>作用维度</td>
+					<td>模型的深度方向（层与层之间）</td>
+					<td>数据的批次方向（step 与 step 之间）</td>
+			</tr>
+			<tr>
+					<td>解决的问题</td>
+					<td>单次前向产生的激活值太多，撑爆显存</td>
+					<td>单个 batch 太小，等效 batch size 不够大</td>
+			</tr>
+			<tr>
+					<td>机制</td>
+					<td>丢弃中间层激活值，反向时按需重算</td>
+					<td>多个小 batch 的梯度叠加，攒够再 optimizer.step()</td>
+			</tr>
+			<tr>
+					<td>影响的是</td>
+					<td>峰值显存</td>
+					<td>等效 batch size / 梯度质量</td>
+			</tr>
+			<tr>
+					<td>二者不是同一个概念。</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>正向传播算loss，反向传播需要哪一层哪一个值，再按正常方式算出来，不存着。</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>检查点放得越密，显存越高、重算越少；放得越稀，显存越低、重算越多。</td>
+					<td></td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="ppo-dpo">PPO DPO</h2>
+<table>
+	<thead>
+			<tr>
+					<th>维度</th>
+					<th>PPO</th>
+					<th>DPO</th>
+					<th>GRPO</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>更新的模型数</td>
+					<td>Actor + Critic（2 个）</td>
+					<td>Actor（1 个）</td>
+					<td>Actor（1 个）</td>
+			</tr>
+			<tr>
+					<td>冻结的模型数</td>
+					<td>Reference + Reward Model</td>
+					<td>Reference</td>
+					<td>Reference</td>
+			</tr>
+			<tr>
+					<td>Critic 的选取自由</td>
+					<td>有，可独立设计</td>
+					<td>无（已被解析消去）</td>
+					<td>无（用组内统计代替）</td>
+			</tr>
+			<tr>
+					<td>PPO和GRPO都是在线的</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>在线 vs 离线的本质区别</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>关键不在于&quot;拿谁的输出做比较&quot;，而在于<strong>训练时回复 y 从哪里来</strong>。</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>PPO:取 prompt x</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>2. 当前策略模型 π_θ 现场生成回复 y  ← 在线</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>3. 奖励模型对 y 打分 → r</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>4. 用 r 更新 π_θ</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>5. π_θ 已经变了，下一步继续用新的 π_θ 生成</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>DPO：训练前（数据集制作阶段，与训练无关）：</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>人类或另一个模型生成了 y_w（好回复）和 y_l（差回复）</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>标注员确认偏好：y_w &gt; y_l</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>→ 打包成 dataset，冻结</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>训练第 t 步：</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>6. 从 dataset 取出固定的三元组 (x, y_w, y_l)  ← 离线</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>7. 分别喂给 π_θ 和 π_ref，只做前向传播</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>8. 计算 log ratio，更新 π_θ</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>9. π_θ 更新了，但 dataset 里的 y_w, y_l 永远不变</td>
+					<td></td>
+					<td></td>
+					<td></td>
+			</tr>
+	</tbody>
+</table>
+<p>DPO问题：当 πθ​ 训练到后期，分布已经漂移，模型在学习&quot;其他人犯过的错误&quot;而非&quot;自己现在会犯的错误&quot;，存在 <strong>distribution shift</strong></p>
+<p><strong>PPO 的优势</strong>：每步都用当前策略采样，训练信号始终与当前模型分布对齐，但代价是必须在训练中反复做生成（推理），计算开销大</p>
+<h2 id="sft-rlhf-本质区别">SFT RLHF 本质区别</h2>
+<p>核心差异在于<strong>损失函数告诉模型&quot;学什么&quot;的方式</strong>。</p>
+<p>SFT 的 loss 是标准的交叉熵（语言模型 loss）要求模型的输出分布<strong>完全贴近训练数据里给定的那条回复</strong>，每个 token 都要对准。本质是<strong>行为克隆（Behavior Cloning）</strong>——告诉模型&quot;你就照着这个写&quot;。</p>
+<p>PPO/DPO 的 loss 本质上是在优化<strong>跨回复的相对关系</strong></p>
+<p><strong>PPO/GRPO</strong>：用奖励信号缩放每条回复的 log-prob 梯度，好回复梯度加强，坏回复梯度抑制
+SFT 是<strong>单点监督</strong>：告诉模型&quot;这个输出是对的，往这里拟合&quot;。<br>
+RLHF 是<strong>对比/序数监督</strong>：告诉模型&quot;这个输出比那个更好/更差，调整相对概率&quot;——这个信号在 SFT 数据里是隐式缺失的。</p>
+<p><strong>DPO</strong> 的信号是<strong>离散序数</strong>（yw≻yl，只知道谁更好，不知道好多少），对的形式天然就是成对的。
+<strong>PPO</strong> 的信号是<strong>连续标量</strong>（reward model 输出一个实数分），好多少/差多少都有量化，不需要成对，单条回复就能打分。</p>
+<p><strong>GRPO</strong> 在我的项目里<strong>不是神经网络奖励模型</strong>，而是规则函数（答案对不对，程序直接判断）。这类设计叫 <strong>RLVR（RL with Verifiable Rewards）</strong>，是 DeepSeek-R1-Zero 的核心创新点之一：完全绕开了奖励模型可能被 reward hacking 的问题，信号来源是客观事实而非模型打分。</p>
+<p>过两天可以去看看alibi的做法，RoPE我刚刚才注意到原来就是jianlin su 大佬提出的，给跪了，之前一直看他的博客，但是没注意到他就是提出者。。。。。。</p>
+
+  </div>
+  
+  
+  <div class="post-tags">
+    <a href="/tags/diary/">#diary</a> 
+  </div>
+  
+  
+  <nav class="post-nav">
+    <a class="prev" href="/p/qwen3-grpo%E9%AA%8C%E8%AF%81%E5%AE%9E%E9%AA%8C/">← Qwen3 GRPO验证实验</a>
+    <a class="next" href="/p/%E5%AD%A6%E4%B9%A0day39%E5%88%B7%E5%8A%9B%E6%89%A3%E6%8A%95%E9%80%92%E4%B8%AD%E6%97%A0%E5%9B%9E%E5%BA%94/">学习day39：刷力扣，投递中，无回应 →</a>
+  </nav>
+  
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© 2025–2026 Qianqiu</span>
+    <span class="foot-links">
+      <a href="https://github.com/qianqiuqiu" target="_blank" rel="noopener">github</a><a href="/img/wechat.jpg">wechat</a>
+      <a href="/index.xml">rss</a>
+    </span>
+  </div>
+</footer>
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var r=document.documentElement;
+  var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
+  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+});
+</script>
+</body>
+</html>

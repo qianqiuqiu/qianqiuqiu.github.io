@@ -1,0 +1,8 @@
+{{ $pag := .Paginator }}
+{{ if gt $pag.TotalPages 1 }}
+<nav class="pager">
+  {{ if $pag.HasPrev }}<a href="{{ $pag.Prev.URL }}">← newer</a>{{ else }}<span></span>{{ end }}
+  <span class="pager-pos">{{ $pag.PageNumber }} / {{ $pag.TotalPages }}</span>
+  {{ if $pag.HasNext }}<a href="{{ $pag.Next.URL }}">older →</a>{{ else }}<span></span>{{ end }}
+</nav>
+{{ end }}

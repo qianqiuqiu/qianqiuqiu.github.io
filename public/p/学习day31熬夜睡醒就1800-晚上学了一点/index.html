@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学习day31：熬夜睡醒就18：00 晚上学了一点 · qianqiu</title>
+<meta name="description" content="lc：763
+重新默写复习了MHA MQA GQA
+接着学习RAG的项目
+embeddings.py 用 FlagEmbedding 的 BGEM3FlagModel 加载 BGE-M3。
+get_embeddings() 工厂函数：按字符串选择用哪个模型。 __main__ 里演示：编码文本、打印 …">
+<link rel="canonical" href="http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day31%E7%86%AC%E5%A4%9C%E7%9D%A1%E9%86%92%E5%B0%B11800-%E6%99%9A%E4%B8%8A%E5%AD%A6%E4%BA%86%E4%B8%80%E7%82%B9/">
+
+<link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
+<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav-row">
+    <a class="site-name" href="/">qianqiu<span class="cursor">_</span></a>
+    <nav class="site-nav">
+      
+      
+      <a href="/">home</a>
+      
+      <a href="/categories/diary/">diary</a>
+      
+      <a href="/categories/research/">research</a>
+      
+      <a href="/categories/entertain/">entertain</a>
+      
+      <a href="/archives/">archives</a>
+      
+      <a href="/search/">search</a>
+      
+      <a href="/about/">about</a>
+      
+      <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<article class="post">
+  <header class="post-head">
+    <h1>学习day31：熬夜睡醒就18：00 晚上学了一点</h1>
+    <div class="post-meta">
+      <time datetime="2026-02-20">2026-02-20</time>
+       · <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">转码日记</a>
+      
+    </div>
+  </header>
+  <div class="content">
+    <p>lc：763</p>
+<p>重新默写复习了MHA MQA GQA</p>
+<p>接着学习RAG的项目</p>
+<h3 id="embeddingspy">embeddings.py</h3>
+<p>用 <code>FlagEmbedding</code> 的 <code>BGEM3FlagModel</code> 加载 BGE-M3。</p>
+<ul>
+<li><code>get_embeddings()</code> 工厂函数：按字符串选择用哪个模型。</li>
+<li><code>__main__</code> 里演示：编码文本、打印向量维度、做余弦相似度测试。</li>
+</ul>
+<p>BGEM3Embeddings：核心封装类（LangChain Embeddings 接口）
+self._load_model() 优先用 FlagEmbedding，失败则 fallback
+<code>_load_fallback_model()</code>：用 sentence-transformers 兜底</p>
+<p>embed_documents：批量把文本变成向量（建库时用）</p>
+<p>encode_multi / encode_query_multi：同时拿 dense + sparse + ColBERT（仅 FlagEmbedding）：要用 BGE-M3 的“三合一能力”时（dense/sparse/colbert）才用它。</p>
+<p>get_dimension：动态测维度</p>
+<p>get_embeddings 工厂函数：统一入口 - 好处：外部代码不用关心具体类，传一个字符串就行。 常用在配置驱动的项目里：比如 dev 用 simple，prod 用 bge-m3。</p>
+<h3 id="vector_storepy">vector_store.py</h3>
+<p>把“文档 → 向量 → FAISS 索引 → 检索/保存/加载/增量添加”封装成一个类</p>
+<p>一个类：<code>FAISSVectorStore</code>
+核心能力 4 件套：</p>
+<ol>
+<li><strong>build_from_documents</strong>：从一堆 <code>Document</code> 构建索引（一次性建库）</li>
+<li><strong>search</strong>：给定 query 做 TopK 相似度检索（在线检索）</li>
+<li><strong>save/load</strong>：把索引和文档元数据落盘 &amp; 再读回来（持久化）</li>
+<li><strong>add_documents</strong>：增量添加新文档（更新库）</li>
+</ol>
+<h4 id="_create_index按类型创建-faiss-索引"><code>_create_index()</code>：按类型创建 FAISS 索引</h4>
+<p><code>FlatIP</code>：暴力遍历计算内积，<strong>精确</strong>，简单可靠
+IVFFlat（近似检索）:</p>
+<ul>
+<li>先把所有向量聚成 <code>nlist</code> 个簇（桶）</li>
+<li>查询时先找最可能的 <code>nprobe</code> 个桶</li>
+<li>只在这些桶里做精确比较 → <strong>速度大幅提升</strong>，精度会有点损失
+<code>nprobe</code> 越大：</li>
+<li>搜得更全（精度/召回更高）</li>
+<li>但速度更慢
+经验式的 <code>nlist</code> 选择</li>
+<li><code>num_vectors // 40</code>：大概每个桶 40 个向量（粗略经验）</li>
+<li>同时限制不超过配置的 <code>FAISS_NLIST</code>
+HNSW（图近似检索）:用图结构做近似最近邻，通常 <strong>召回高</strong>、速度也快.内存占用更大</li>
+</ul>
+<h4 id="build_from_documents建库全流程"><code>build_from_documents()</code>：建库全流程</h4>
+<p>提取文本 向量化 更新实际维度 归一化(归一化后，内积等价余弦相似度，所以后面用 <code>IndexFlatIP / METRIC_INNER_PRODUCT</code>)
+创建索引
+训练（仅 IVF 需要）
+把向量加进去</p>
+<h4 id="search在线检索流程"><code>search()</code>：在线检索流程</h4>
+<p>query 向量化 + 归一化
+FAISS 搜索 scores, indices = self.index.search(query_vector, top_k)
+过滤与组装结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">score</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>  
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="k">continue</span>  
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="n">score_threshold</span><span class="p">:</span> <span class="k">continue</span>  
+</span></span><span class="line"><span class="cl"><span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">documents</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">score</span><span class="p">)))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="add_documents增量添加"><code>add_documents()</code>：增量添加</h4>
+<p>流程基本是 build 的缩小版,仅IVFFLAT有细节处理上的问题。</p>
+<ul>
+<li><strong>IVFFlat 在添加前必须 train 过</strong>。如果你没 build 直接 add，会报错。</li>
+<li>如果“先 build 很少数据训练 IVF，再大量增量 add”，效果可能不好（聚类中心不适配新分布）。实践中可能需要重建/再训练。</li>
+</ul>
+<h4 id="总结">总结</h4>
+<p><strong>必须对 doc/query 都做 L2 normalize</strong>，否则内积不是余弦，阈值/分数含义会乱。
+<strong>documents 顺序必须和向量添加顺序一致</strong>，否则 <code>self.documents[idx]</code> 会错配。
+<strong>IVFFlat 必须 train 后才能 add</strong>，并且训练数据量太少会影响质量。</p>
+<h3 id="sparse_storepy">sparse_store.py</h3>
+<p>稀疏向量表示，比传统 BM25 更准确：</p>
+<ul>
+<li>
+<p>模型为每个 token 学习了重要性权重</p>
+</li>
+<li>
+<p>可以捕获语义同义词（BM25 做不到）</p>
+</li>
+<li>
+<p>格式：{token_id_str: weight, &hellip;}</p>
+</li>
+</ul>
+<p>检索原理：对 query 和 document 的稀疏向量做内积（只遍历 query 中非零 token）</p>
+<p>细节略过</p>
+<h3 id="colbert_storepy">colbert_store.py</h3>
+<p>ColBERT (Contextualized Late Interaction over BERT) 原理：</p>
+<ul>
+<li>每个文档不再用单个向量表示，而是保留每个 token 的向量</li>
+<li>查询时对每个 query token 找文档中最相似的 token，求和：
+  score = Σ_i max_j cos(q_i, d_j)</li>
+<li>精度高于单向量检索，但计算开销大</li>
+<li>因此通常只对候选集做重打分，不做全库检索</li>
+</ul>
+<h3 id="retrieverpy">retriever.py</h3>
+<p>拿到候选文档后（可选）再做 <strong>Cross-Encoder 重排序</strong>，最终返回 Top-K。</p>
+<p>BM25Retriever
+用 <code>jieba</code> 对中文分词，把每个文档切成词序列。</p>
+<ul>
+<li>用 <code>BM25Okapi</code> 建索引。</li>
+<li><code>search(query)</code>：同样分词后 BM25 打分，取分数最高的 top_k 文档</li>
+</ul>
+<p>Reranker
+输入是初检结果，重新按 rerank 分排序，返回 top_k。</p>
+<p><code>HybridRetriever</code>（总控）
+记录各种权重与模式参数</p>
+<h4 id="三种检索如何工作">三种检索如何工作</h4>
+<p>dense_only FAISS dense
+初检用 <code>top_k * 2</code>：给 reranker 留更大候选池，提高最终质量。</p>
+<p>hybrid_bm25</p>
+<ul>
+<li>Dense：FAISS 搜 <code>top_k*2</code></li>
+<li>BM25：bm25 搜 <code>top_k*2</code></li>
+<li><code>_fuse_results</code>：两路 <strong>min-max 归一化到 [0,1]</strong> 后加权相加</li>
+<li><code>final = dense_weight * norm_dense + bm25_weight * norm_bm25</code></li>
+<li>过滤阈值 + （可选）rerank → top_k</li>
+</ul>
+<p><code>multi_route</code>
+query_multi = embeddings.encode_query_multi(query)
+得到 dense_vecs / lexical_weights / colbert_vecs</p>
+<ul>
+<li>合并成 <code>candidate_set[doc_idx] = {doc, dense_score, sparse_score}</code>
+ColBERT 对候选集重打分（token 级 MaxSim）</li>
+<li>分别对 dense/sparse/colbert 的分数做 <strong>min-max 归一化</strong></li>
+<li>然后三路加权相加：<br>
+<code>fused = w_dense*dense_norm + w_sparse*sparse_norm + w_colbert*colbert_norm</code></li>
+<li>排序得到融合结果</li>
+<li>回到 <code>retrieve()</code>：阈值过滤 + （可选）rerank → top_k
+从 <code>candidate_set</code> 收集三路分数列表
+<code>_normalize_score_list</code> 做 min-max
+按候选顺序逐个算 fused_score，最后排序</li>
+</ul>
+<h3 id="llmpy">llm.py</h3>
+<p>把本地 Ollama 部署的 Qwen（如 qwen2.5:7b）通过 LangChain 的 <code>ChatOllama</code> 包装成一个统一的“聊天模型接口”<strong>，并提供一个</strong>连通性测试<strong>和一个</strong>可运行示例</p>
+<h3 id="rag_chainpy">rag_chain.py</h3>
+<p><code>RAGChain</code> 类：初始化 <code>__init__</code> 做了 4 件事</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">vector_store</span> <span class="o">=</span> <span class="n">vector_store</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">llm</span> <span class="o">=</span> <span class="n">llm</span> <span class="ow">or</span> <span class="n">get_llm</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="o">=</span> <span class="n">top_k</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">retriever</span> <span class="o">=</span> <span class="n">create_retriever</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">chat_history</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">prompt</span> <span class="o">=</span> <span class="n">ChatPromptTemplate</span><span class="o">.</span><span class="n">from_messages</span><span class="p">([</span>  
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="s2">&#34;system&#34;</span><span class="p">,</span> <span class="n">SYSTEM_PROMPT</span><span class="p">),</span>  
+</span></span><span class="line"><span class="cl"><span class="n">MessagesPlaceholder</span><span class="p">(</span><span class="n">variable_name</span><span class="o">=</span><span class="s2">&#34;chat_history&#34;</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>  
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="s2">&#34;human&#34;</span><span class="p">,</span> <span class="n">QA_PROMPT_TEMPLATE</span><span class="p">),</span>  
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>保存核心依赖 创建检索器 初始化对话历史 构建 Prompt 模板</p>
+<p><code>query()</code>：非流式的完整 RAG 问答</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">retrieved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retriever</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">question</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="n">top_k</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_context</span><span class="p">(</span><span class="n">retrieved</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">format_messages</span><span class="p">(</span>  
+</span></span><span class="line"><span class="cl"><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>  
+</span></span><span class="line"><span class="cl"><span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span>  
+</span></span><span class="line"><span class="cl"><span class="n">chat_history</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chat_history</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:],</span> <span class="c1"># 最近3轮  </span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>  
+</span></span><span class="line"><span class="cl"><span class="n">answer</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">chat_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">HumanMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">question</span><span class="p">))</span>  
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">chat_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AIMessage</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">answer</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">sources</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_sources</span><span class="p">(</span><span class="n">retrieved</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>stream()</code>：流式输出版本 整体和 <code>query()</code> 一样，差别在 LLM 调用</p>
+<p><code>_format_context()</code>：上下文组装规则
+它把每条文档变成“可被引用”的块</p>
+<p><code>_extract_sources()</code>：做“参考来源列表” - 去重：</p>
+<ul>
+<li>同 source 只保留一次</li>
+<li>给一个 preview：让用户知道引用了什么内容</li>
+<li>score 取 round(4)</li>
+</ul>
+<p><code>create_rag_chain()</code>：一键拉起整套系统</p>
+<p><code>interactive_mode()</code>：命令行聊天入口</p>
+
+  </div>
+  
+  
+  <div class="post-tags">
+    <a href="/tags/diary/">#diary</a> 
+  </div>
+  
+  
+  <nav class="post-nav">
+    <a class="prev" href="/p/%E5%AD%A6%E4%B9%A0day32/">← 学习day32：</a>
+    <a class="next" href="/p/%E5%AD%A6%E4%B9%A0day30%E6%98%A5%E8%8A%82%E4%B8%AD/">学习day30：春节中 →</a>
+  </nav>
+  
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© 2025–2026 Qianqiu</span>
+    <span class="foot-links">
+      <a href="https://github.com/qianqiuqiu" target="_blank" rel="noopener">github</a><a href="/img/wechat.jpg">wechat</a>
+      <a href="/index.xml">rss</a>
+    </span>
+  </div>
+</footer>
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var r=document.documentElement;
+  var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
+  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+});
+</script>
+</body>
+</html>

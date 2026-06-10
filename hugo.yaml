@@ -1,0 +1,100 @@
+baseurl: https://qianqiuqiu.xyz/
+title: qianqiu
+copyright: Qianqiu
+theme: paper
+
+DefaultContentLanguage: en
+hasCJKLanguage: true
+
+pagination:
+    pagerSize: 20
+
+# 保持原有 URL 结构，老链接不失效
+permalinks:
+    post: /p/:slug/
+    page: /:slug/
+
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON   # 搜索索引 /index.json
+
+params:
+    description: Master in PKU · VLM / RLHF / MLsys
+    tagline: 'master @ PKU · VLM / RLHF / MLsys · game, web novel, anime'
+    since: 2025
+    math: true
+
+menu:
+    main:
+        - name: home
+          url: /
+          weight: 1
+        - name: diary
+          url: /categories/diary/
+          weight: 2
+        - name: research
+          url: /categories/research/
+          weight: 3
+        - name: entertain
+          url: /categories/entertain/
+          weight: 4
+        - name: archives
+          url: /archives/
+          weight: 5
+        - name: search
+          url: /search/
+          weight: 6
+        - name: about
+          url: /about/
+          weight: 7
+
+    social:
+        - name: github
+          url: https://github.com/qianqiuqiu
+          weight: 1
+        - name: wechat
+          url: /img/wechat.jpg
+          weight: 2
+
+related:
+    includeNewer: true
+    threshold: 60
+    toLower: false
+    indices:
+        - name: tags
+          weight: 100
+        - name: categories
+          weight: 200
+
+markup:
+    goldmark:
+        extensions:
+            passthrough:
+                enable: true
+                delimiters:
+                    block:
+                        - - \[
+                          - \]
+                        - - $$
+                          - $$
+                    inline:
+                        - - \(
+                          - \)
+                        - - $
+                          - $
+        renderer:
+            unsafe: true
+    tableOfContents:
+        endLevel: 4
+        ordered: true
+        startLevel: 2
+    highlight:
+        noClasses: false
+        codeFences: true
+        guessSyntax: true
+        lineNoStart: 1
+        lineNos: true
+        lineNumbersInTable: true
+        tabWidth: 4

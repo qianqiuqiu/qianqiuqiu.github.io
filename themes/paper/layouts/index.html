@@ -1,0 +1,17 @@
+{{ define "main" }}
+{{ with site.Params.tagline }}<p class="tagline"><span class="tagline-text">{{ . | markdownify }}</span><span class="tagline-cursor">_</span></p>
+<script>
+(function(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var el=document.currentScript.previousElementSibling.querySelector(".tagline-text");
+  var full=el.textContent,i=0;
+  el.textContent="";
+  (function t(){if(i<=full.length){el.textContent=full.slice(0,i++);setTimeout(t,26)}})();
+})();
+</script>
+{{ end }}
+{{ $posts := where site.RegularPages "Type" "post" }}
+{{ $pag := .Paginate $posts }}
+{{ partial "post-list.html" $pag.Pages }}
+{{ partial "pagination.html" . }}
+{{ end }}

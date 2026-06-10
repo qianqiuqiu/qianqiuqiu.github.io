@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>转码学习day4 · qianqiu</title>
+<meta name="description" content="今天依旧中午起，背单词，吃午饭，2点开始学习。
+lc：2、226、22、74、55、45
+继续学习RoPE，昨天提到分组依旧是两两分组，延续了SinPE的做法
+">
+<link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day4/">
+
+<link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
+<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav-row">
+    <a class="site-name" href="/">qianqiu<span class="cursor">_</span></a>
+    <nav class="site-nav">
+      
+      
+      <a href="/">home</a>
+      
+      <a href="/categories/diary/">diary</a>
+      
+      <a href="/categories/research/">research</a>
+      
+      <a href="/categories/entertain/">entertain</a>
+      
+      <a href="/archives/">archives</a>
+      
+      <a href="/search/">search</a>
+      
+      <a href="/about/">about</a>
+      
+      <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<article class="post">
+  <header class="post-head">
+    <h1>转码学习day4</h1>
+    <div class="post-meta">
+      <time datetime="2026-01-24">2026-01-24</time>
+       · <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">转码日记</a>
+      
+    </div>
+  </header>
+  <div class="content">
+    <p>今天依旧中午起，背单词，吃午饭，2点开始学习。</p>
+<p>lc：2、226、22、74、55、45</p>
+<p>继续学习RoPE，昨天提到分组依旧是两两分组，延续了SinPE的做法</p>
+<p>对向量 q的维度进行分组操作, 相邻的两个维度作为一组, 一共可以分成d/2组, 每组旋转m*θi度。$\theta_i=10000^{-2i/d}$</p>
+<p>$\left.\mathbf{R}_m=\left[\begin{array}{cccccccc}\cos m\theta_0&-\sin m\theta_0&0&0&\cdots&\cdots&0&0\\\sin m\theta_0&\cos m\theta_0&0&0&\cdots&\cdots&0&0\\0&0&\cos m\theta_1&-\sin m\theta_1&\cdots&\cdots&0&0\\0&0&\sin m\theta_1&\cos m\theta_1&\cdots&\cdots&0&0\\\vdots&\vdots&\vdots&\vdots&\ddots&\ddots&\vdots&\vdots\\\vdots&\vdots&\vdots&\vdots&\ddots&\ddots&\vdots&\vdots\\0&0&0&0&\cdots&\cdots&\cos m\theta_{d/2-1}&-\sin m\theta_{d/2-1}\\0&0&0&0&\cdots&\cdots&\sin m\theta_{d/2-1}&\cos m\theta_{d/2-1}\end{array}\right.\right]$</p>
+<p>$score(\mathbf{q}_m,\mathbf{k}_n)=(\mathbf{R}_m\cdot\mathbf{q}_m)^\mathsf{T}\cdot(\mathbf{R}_n\cdot\mathbf{k}_n)$ m是token的绝对位置索引</p>
+<p>RoPE 的区别在于：<strong>不是把位置信息“加”到向量上</strong>，而是通过旋转，把位置信息“融合进”向量的方向中</p>
+<p>最终 attention 对 <strong>相对位置敏感，而非绝对位置</strong></p>
+<p>这种Rm保证θ0只和q0、q1相乘，以此类推，所以可以展开并化简，避免直接创建一个这么大的矩阵</p>
+<p>最后将θ和q严格分开后，可得到下面的式子。</p>
+<p>$\mathbf{R}_{m}\cdot\mathbf{q}_{m}=\begin{bmatrix}q_{0}\\q_{1}\\q_{2}\\q_{3}\\\vdots\\q_{d-2}\\q_{d-1}\end{bmatrix}\otimes\begin{bmatrix}\cos m\theta_{0}\\\cos m\theta_{0}\\\cos m\theta_{1}\\\cos m\theta_{1}\\\cos m\theta_{2}\\\vdots\\\cos m\theta_{d/2-1}\\\cos m\theta_{d/2-1}\end{bmatrix}+\begin{bmatrix}q_{1}\\q_{0}\\q_{3}\\q_{2}\\\vdots\\q_{d-1}\\q_{d-2}\end{bmatrix}\otimes\begin{bmatrix}-\sin m\theta_{0}\\\sin m\theta_{0}\\-\sin m\theta_{1}\\\sin m\theta_{1}\\\vdots\\-\sin m\theta_{d/2-1}\\\sin m\theta_{d/2-1}\end{bmatrix}$</p>
+<p>MHA大体流程：线性投影Q K V，把dmodel维度拆成h个头，分别计算注意力得分（点积、scale、掩码mask（optional）、softmax、和V加权求和），最后多头拼接，投影回原词向量空间。scale除以√dk 防止梯度爆炸或者坍缩。</p>
+<p>在缩放点积注意力的内部，通过屏蔽（设置为−∞）softmax 输入中所有非法连接对应的值，从而实现了防止解码器中的信息向左流动。</p>
+<p>Attention is all you need里提到了“我们还尝试使用可学习的位置嵌入 [9]，发现这两种方法结果几乎相同”，一定程度上说明了还在用RoPE的原因，他们采用的可学习位置嵌入翻译效果和SinPE差不多，几乎可以断定一般的可学习的位置嵌入方案，不如RoPE。</p>
+<h4 id="经典论文使用的正则化规则">经典论文使用的正则化规则</h4>
+<p><strong>Residual Dropout</strong>：某个训练轮次随机丢弃某些参数，避免过度依赖某些参数。经典方案$P_{drop}=0.1$，防止模型<strong>过度依赖某个子层的输出</strong>，也一定程度上避免了过拟合</p>
+<p><strong>Label Smoothing</strong>：标准分类（或语言模型）训练使用 <strong>one-hot 标签</strong>：</p>
+<ul>
+<li>正确词：概率 = 1</li>
+<li>其他词：概率 = 0</li>
+</ul>
+<p>会导致模型变得<strong>过度自信</strong>、logits 越拉越极端、泛化能力下降</p>
+<p>标签平滑系数为 ε\varepsilonε（论文中是 <strong>0.1</strong>）：</p>
+<ul>
+<li>
+<p>正确标签：</p>
+<p>$1-\varepsilon$</p>
+</li>
+<li>
+<p>其余标签：</p>
+<p>$\frac{\varepsilon}{V-1}$</p>
+</li>
+</ul>
+<p>也就是说</p>
+<blockquote>
+<p>不再告诉模型“这个词 <strong>绝对正确</strong>，其他 <strong>绝对错误</strong>”</p>
+</blockquote>
+<p>L1、L2正则化约束的是参数，显式惩罚参数，不影响前向结构。</p>
+<p>Residual Dropout、Label Smoothing约束的是激活和目标，不显式地惩罚参数，但明确地出现在前向结构上。</p>
+<h3 id="关于多头注意力的一些疑惑">关于多头注意力的一些疑惑</h3>
+<p>研究了一下，发现<strong>多头并不是“单头做不到的魔法”，而是一种结构性取舍</strong>。</p>
+<p>单头 <em>理论上</em> 可以捕捉所有关系；多头的优势主要是<strong>更容易学到、学得更稳定、更可分解</strong>，而不是表达能力的本质提升。</p>
+<p>“多头更容易让模型把不同关系拆开来学” —— 更准确</p>
+<h5 id="表达能力角度">表达能力角度</h5>
+<ul>
+<li>一个足够大的单头注意力（d_model 维）
+→ <strong>在函数空间上</strong>，可以模拟多头注意力</li>
+<li>多头注意力
+→ 本质是多个低维注意力并行，再拼接 + 线性映射</li>
+</ul>
+<p>我之前的疑问是，<strong>把 d_model 切成 8 个 head，会不会“人为破坏维度之间的关系”？</strong></p>
+<p>分 head 并不等于“维度被硬切、关系被丢掉”。实际做的不是</p>
+<p>embedding = [x1, x2, &hellip;, xd]</p>
+<p>head1 = [x1..x64]</p>
+<p>head2 = [x65..x128]</p>
+<p>实际做的是 $Q_h=XW_h^QK_h=XW_h^KV_h=XW_h^V$</p>
+<p>代码里的做法是<em>self</em>.linear_q = nn.Linear(d_model, d_model) # 注意这里：输入维度是 d_model，输出维度也是 d_model</p>
+<p># 这里发生的计算就是 X * W_Total</p>
+<p># W_Total 是一个 (d_model, d_model) 的大矩阵</p>
+<p><em>x</em> = <em>linear</em>(<em>x</em>)</p>
+<p># 步骤 B: 切分维度 (Split Heads)</p>
+<p># 将投影后的结果切分成 h 个头</p>
+<p><em>x</em> = <em>x</em>.view(batch_size, -1, <em>self</em>.h, <em>self</em>.d_k).transpose(1,2)</p>
+<p>nn.Linear做的是矩阵乘法。这意味着输出向量的<strong>每一个维度</strong>，都是输入向量<strong>所有维度</strong>的加权和。</p>
+<p>第一步做过全局混合，所以后面的view和transpose虽然看起来是“硬切”，但实际上切出来的每一份（每一个 Head），都已经包含了原始输入中<strong>全局信息</strong>经过特定角度投影后的结果。</p>
+<p>解释了该点疑惑后，就轮到多头的优点了。</p>
+<h4 id="关于多头的优点阐述">关于多头的优点阐述</h4>
+<p>从表达能力角度，只要算力够，多头单头几乎是一样的，多头 ≈ 对注意力矩阵做结构化分解</p>
+<p>多头并不是为了“模型能表示什么”，而是为了“模型怎么更容易学到”。</p>
+<p>从优化与训练稳定性角度：几乎必要（在原始 Transformer 框架下）</p>
+<p>在实践中，单头注意力容易出现：</p>
+<ul>
+<li>注意力塌缩（过度集中在少数 token）</li>
+<li>不同关系相互干扰（位置、语义、指代混在一起）</li>
+<li>梯度不稳定（softmax 的竞争更激烈）</li>
+</ul>
+<p>这些不是“理论缺陷”，而是<strong>优化路径非常差</strong>。</p>
+<p>多头把一次复杂注意力 → 拆成多次简单注意力，每个 head：维度更小、softmax 更“平缓”、竞争更少。这相当于对优化空间做了<strong>重参数化（reparameterization）</strong>，极大改善了训练地形。</p>
+<p>多头强行引入了一个假设：</p>
+<blockquote>
+<p><strong>“不同类型的关系可以被近似解耦”</strong></p>
+</blockquote>
+<blockquote>
+<p>多头不是“唯一正确假设”，只是“一个好用的假设”。</p>
+</blockquote>
+<p>实证上很多 head学到几乎相同的模式或几乎不被用到，剪掉 30%–70% 的 head性能几乎不变。</p>
+<p>head存在事实性的冗余。</p>
+<p>理论先学这么多。</p>
+<p>尝试默写MHA核心框架的代码,发现很不熟练，明天再继续。</p>
+<p>注册了huggingface，打算开始看一些文档和部署一些项目</p>
+
+  </div>
+  
+  
+  <div class="post-tags">
+    <a href="/tags/diary/">#diary</a> 
+  </div>
+  
+  
+  <nav class="post-nav">
+    <a class="prev" href="/p/have-a-little-break/">← Have a little break</a>
+    <a class="next" href="/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day3/">转码学习day3 →</a>
+  </nav>
+  
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© 2025–2026 Qianqiu</span>
+    <span class="foot-links">
+      <a href="https://github.com/qianqiuqiu" target="_blank" rel="noopener">github</a><a href="/img/wechat.jpg">wechat</a>
+      <a href="/index.xml">rss</a>
+    </span>
+  </div>
+</footer>
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var r=document.documentElement;
+  var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
+  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+});
+</script>
+</body>
+</html>

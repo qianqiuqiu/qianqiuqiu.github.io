@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>转码学习day10 · qianqiu</title>
+<meta name="description" content="今天摆了个大的，下了一白天的棋，上了个小段。我觉得可能是因为昨晚买了2月2回家的票之后，心思稍微有点飘。晚上九点开始做做样子。
+接着跟NLP的教程，发现了evaluate模块的变迁，evaluate.list_evaluation_modules(include_community=False)这个 …">
+<link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day10/">
+
+<link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
+<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav-row">
+    <a class="site-name" href="/">qianqiu<span class="cursor">_</span></a>
+    <nav class="site-nav">
+      
+      
+      <a href="/">home</a>
+      
+      <a href="/categories/diary/">diary</a>
+      
+      <a href="/categories/research/">research</a>
+      
+      <a href="/categories/entertain/">entertain</a>
+      
+      <a href="/archives/">archives</a>
+      
+      <a href="/search/">search</a>
+      
+      <a href="/about/">about</a>
+      
+      <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<article class="post">
+  <header class="post-head">
+    <h1>转码学习day10</h1>
+    <div class="post-meta">
+      <time datetime="2026-01-30">2026-01-30</time>
+       · <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">转码日记</a>
+      
+    </div>
+  </header>
+  <div class="content">
+    <p>今天摆了个大的，下了一白天的棋，上了个小段。我觉得可能是因为昨晚买了2月2回家的票之后，心思稍微有点飘。晚上九点开始做做样子。</p>
+<p>接着跟NLP的教程，发现了evaluate模块的变迁，evaluate.list_evaluation_modules(<em>include_community</em>=False)这个传参已经没用了，因为社区架构已经改变了，<strong>官方模块（如 accuracy, f1 等）已经迁移到 Hub 上作为社区模块托管</strong>。</p>
+<p>evaluate分三种，normalize 1输出准确率，0则输出对了几个，在normalize 1 里面，还可以额外设置sample weight ，表示对不同样本的关注程度，输出加权后的准确率。</p>
+<p>把evaluate封装学习了一下之后，回到前面的model里面，用封装好的evaluate来代替原本手写的evaluate模块来在每个epoch训练之后在验证集上展示模型性能。</p>
+<p>trainer是transformer的训练函数，封装了完整的训练评估，集成多种后端，Deepspeed，pytorch FSDP等。</p>
+<p>把TrainingArguments可以调整的主要参数都试了一下，然后把train_arg传入Trainer训练了几次，查看输出的文件有什么不同，data_collator用于将所有数据填充到一批的最大值，compute_metrics和eval_strategy联动。</p>
+<p><strong><code>eval_strategy=&quot;epoch&quot;</code></strong> 决定<strong>何时评估</strong></p>
+<ul>
+<li>每个 epoch 结束时触发评估</li>
+</ul>
+<p><strong><code>compute_metrics=eval_metric</code></strong> 决定<strong>如何评估</strong></p>
+<ul>
+<li>当评估被触发时，自动调用这个函数计算指标</li>
+</ul>
+<p>总算是把hugging face组件的基础教程看完了。</p>
+<p>差不多要开始做能写到简历上的项目了，之前拿着minimind 这个toy项目，只训练了一遍，过了一下流程，甚至没有魔改任何地方就去投字节，是我太年轻了，字节HR也是神了，这能让我过简历筛，估计是拿我刷KPI吧 (*^_^*) 乐</p>
+<p>lc:148(我最讨厌这种mid难度但是代码巨长的了，依稀记得还有easy难度代码也贼长的)</p>
+<p>12点下班。</p>
+
+  </div>
+  
+  
+  <div class="post-tags">
+    <a href="/tags/diary/">#diary</a> 
+  </div>
+  
+  
+  <nav class="post-nav">
+    <a class="prev" href="/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day11/">← 转码学习day11</a>
+    <a class="next" href="/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day9/">转码学习day9 →</a>
+  </nav>
+  
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© 2025–2026 Qianqiu</span>
+    <span class="foot-links">
+      <a href="https://github.com/qianqiuqiu" target="_blank" rel="noopener">github</a><a href="/img/wechat.jpg">wechat</a>
+      <a href="/index.xml">rss</a>
+    </span>
+  </div>
+</footer>
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var r=document.documentElement;
+  var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
+  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+});
+</script>
+</body>
+</html>

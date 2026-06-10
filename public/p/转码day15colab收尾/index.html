@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>转码day15：colab收尾 · qianqiu</title>
+<meta name="description" content="下午两点半开始学习。QLoRA（Quantized LoRA）是指量化LoRA，其中quantized表示使用4-bit量化。
+1 2 3 4 5 6 quantization_config = BitsAndBytesConfig( load_in_4bit=True, # 使用4-bit量化 …">
+<link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81day15colab%E6%94%B6%E5%B0%BE/">
+
+<link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
+<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap nav-row">
+    <a class="site-name" href="/">qianqiu<span class="cursor">_</span></a>
+    <nav class="site-nav">
+      
+      
+      <a href="/">home</a>
+      
+      <a href="/categories/diary/">diary</a>
+      
+      <a href="/categories/research/">research</a>
+      
+      <a href="/categories/entertain/">entertain</a>
+      
+      <a href="/archives/">archives</a>
+      
+      <a href="/search/">search</a>
+      
+      <a href="/about/">about</a>
+      
+      <button id="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme">◐</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<article class="post">
+  <header class="post-head">
+    <h1>转码day15：colab收尾</h1>
+    <div class="post-meta">
+      <time datetime="2026-02-04">2026-02-04</time>
+       · <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">转码日记</a>
+      
+    </div>
+  </header>
+  <div class="content">
+    <p>下午两点半开始学习。QLoRA（Quantized LoRA）是指量化LoRA，其中quantized表示使用4-bit量化。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">quantization_config</span> <span class="o">=</span> <span class="n">BitsAndBytesConfig</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">load_in_4bit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>              <span class="c1"># 使用4-bit量化</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bnb_4bit_quant_type</span><span class="o">=</span><span class="s2">&#34;nf4&#34;</span><span class="p">,</span>     <span class="c1"># NF4量化类型</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bnb_4bit_compute_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bfloat16</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bnb_4bit_use_double_quant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># 双重量化</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将模型权重从 <strong>FP16/BF16 (16-bit)</strong> 压缩到 <strong>4-bit</strong></li>
+<li>使用 <strong>NF4 (4-bit NormalFloat)</strong> 量化，这是专门为神经网络权重设计的量化格式</li>
+<li><strong>双重量化</strong>：连量化参数本身也量化，进一步节省显存
+LoRA底秩适配：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">lora_config</span> <span class="o">=</span> <span class="n">LoraConfig</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>                    <span class="c1"># 秩为8的低秩矩阵</span>
+</span></span><span class="line"><span class="cl">    <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">target_modules</span><span class="o">=</span><span class="p">[</span><span class="s2">&#34;q_proj&#34;</span><span class="p">,</span> <span class="s2">&#34;k_proj&#34;</span><span class="p">,</span> <span class="s2">&#34;v_proj&#34;</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>常规全量微调：</strong></p>
+<ul>
+<li>模型权重: 1.5B × 2 bytes = 3GB</li>
+<li>优化器状态 (Adam): 1.5B × 8 bytes = 12GB</li>
+<li>梯度: 1.5B × 2 bytes = 3GB</li>
+<li><strong>总计: ~18GB</strong></li>
+</ul>
+<p><strong>QLoRA:</strong></p>
+<ul>
+<li>量化权重: 1.5B × 0.5 bytes = 0.75GB</li>
+<li>LoRA参数: 8M × 2 bytes = 16MB</li>
+<li>优化器状态: 8M × 8 bytes = 64MB</li>
+<li><strong>总计: ~1GB</strong> ⬇️ <strong>降低95%</strong></li>
+</ul>
+<p><strong>LoRA能够有效微调模型的原因在于低秩假设</strong>：微调过程主要在低维子空间中完成。</p>
+<p>这让我联想到去年11月Kaiming He发表的论文<strong>Back to Basics: Let Denoising Generative Models Denoise</strong>，文中写道：&ldquo;According to the manifold assumption, natural data should lie on a low-dimensional manifold …&quot;。这就是流形假设。流形假设与LoRA的低秩假设有着共同的洞察：<strong>虽然参数空间或数据空间是高维的，但&quot;有效信息&quot;却集中在低维子空间中</strong>。
+这篇文章认为：<strong>预测干净图像（x-prediction）比预测噪声（ε/v-prediction）更优</strong>，因为在流形假设下，干净图像位于低维流形上，而噪声则分布在高维且&quot;偏离流形&quot;的空间中，当网络容量有限时，预测噪声更容易失败。</p>
+<p><strong>我的理解是</strong>：预测噪声本质上是预测高维无序的数据，这对同一神经网络而言更为困难。因为神经元的预测能力存在局限性，高维度的信息往往需要更多神经元和更深的网络层才能有效识别。</p>
+<p><strong>论证逻辑：</strong></p>
+<ol>
+<li><strong>流形假设</strong>：自然图像是高维像素空间中的低维流形，而噪声则分布在更&quot;饱满&quot;的高维空间中</li>
+<li><strong>形式化分析</strong>：预测空间（x/ε/v）和损失空间（x/ε/v）可独立选择，组合成9种不等价的方案</li>
+<li><strong>玩具实验验证</strong>：当低维数据投影到高维观测空间时，只有x-pred在高维情况下仍能正常工作，而ε/v会遭遇灾难性失败</li>
+</ol>
+<p><strong>方法（JiT）</strong>：直接使用ViT/DiT在像素patch上进行x-pred，无需tokenizer、潜空间、预训练或额外损失函数。</p>
+<p><strong>实验结论：</strong></p>
+<ul>
+<li>在ImageNet 256×256、patch=16的设定下，只有x-pred稳定有效，ε/v会出现灾难性失败</li>
+<li>在低维设置（64×64、patch=4）时差距不大，说明问题的本质在于高维token的信息传播</li>
+<li>单纯调整loss权重无法挽救ε/v，而x-pred在不同loss-space下都能正常工作</li>
+<li>提高噪声水平或加宽网络并非根本解法，甚至在某些瓶颈设计下，x-pred的FID指标更优</li>
+</ul>
+<p>这进一步印证了流形假设：<strong>虽然像素空间是高维的，但&quot;有效生成信息&quot;集中在低维流形上。x-pred本质上是&quot;把样本从噪声状态拉回流形&rdquo;，而ε-pred要求网络在高维空间保留噪声信息，对网络容量的要求更为苛刻。</strong></p>
+<p><strong>回到LoRA话题：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 原始前向传播（冻结）</span>
+</span></span><span class="line"><span class="cl"><span class="n">h</span> <span class="o">=</span> <span class="n">W</span> <span class="o">@</span> <span class="n">x</span>  <span class="c1"># W是冻结的原始权重</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># LoRA前向传播</span>
+</span></span><span class="line"><span class="cl"><span class="n">h</span> <span class="o">=</span> <span class="n">W</span> <span class="o">@</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">B</span> <span class="o">@</span> <span class="n">A</span><span class="p">)</span> <span class="o">@</span> <span class="n">x</span>  <span class="c1"># B,A是可训练的旁路矩阵</span>
+</span></span><span class="line"><span class="cl">    <span class="o">^^^^^^</span>   <span class="o">^^^^^^^^^</span>
+</span></span><span class="line"><span class="cl">    <span class="n">冻结</span>     <span class="n">可训练</span> <span class="p">(</span><span class="n">秩r</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="冻结参数-attention层--ffn层的所有权重矩阵">冻结参数 = <strong>Attention层 + FFN层的所有权重矩阵</strong></h3>
+<p>具体来说，每个Transformer Block包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">TransformerBlock</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span> <span class="n">Self</span><span class="o">-</span><span class="n">Attention</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>  <span class="err">├─</span> <span class="n">W_q</span> <span class="p">(</span><span class="n">冻结</span><span class="p">)</span> <span class="o">+</span> <span class="n">LoRA_q</span> <span class="p">(</span><span class="n">可训练</span><span class="p">)</span>  <span class="err">←</span> <span class="n">只在这些矩阵加LoRA</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>  <span class="err">├─</span> <span class="n">W_k</span> <span class="p">(</span><span class="n">冻结</span><span class="p">)</span> <span class="o">+</span> <span class="n">LoRA_k</span> <span class="p">(</span><span class="n">可训练</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>  <span class="err">├─</span> <span class="n">W_v</span> <span class="p">(</span><span class="n">冻结</span><span class="p">)</span> <span class="o">+</span> <span class="n">LoRA_v</span> <span class="p">(</span><span class="n">可训练</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>  <span class="err">└─</span> <span class="n">W_o</span> <span class="p">(</span><span class="n">冻结</span><span class="p">)</span> <span class="o">+</span> <span class="n">LoRA_o</span> <span class="p">(</span><span class="n">可训练</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span> <span class="n">LayerNorm</span> <span class="p">(</span><span class="n">冻结</span><span class="err">，</span><span class="n">不加LoRA</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span> <span class="n">FeedForward</span> <span class="p">(</span><span class="n">FFN</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>  <span class="err">├─</span> <span class="n">W_gate</span> <span class="p">(</span><span class="n">冻结</span><span class="p">)</span> <span class="o">+</span> <span class="n">LoRA_gate</span> <span class="p">(</span><span class="n">可训练</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>  <span class="err">├─</span> <span class="n">W_up</span> <span class="p">(</span><span class="n">冻结</span><span class="p">)</span> <span class="o">+</span> <span class="n">LoRA_up</span> <span class="p">(</span><span class="n">可训练</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>  <span class="err">└─</span> <span class="n">W_down</span> <span class="p">(</span><span class="n">冻结</span><span class="p">)</span> <span class="o">+</span> <span class="n">LoRA_down</span> <span class="p">(</span><span class="n">可训练</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>
+</span></span><span class="line"><span class="cl"><span class="err">└─</span> <span class="n">LayerNorm</span> <span class="p">(</span><span class="n">冻结</span><span class="err">，</span><span class="n">不加LoRA</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>反向传播时梯度只流经 B 和 A → 显存占用大幅降低</li>
+<li>原始权重 W 被冻结 → <strong>无需计算梯度</strong> → 不占用梯度显存</li>
+</ul>
+<p>在FFN层中，激活函数采用SwiGLU比GELU、ReLU、SiLU效果更佳：</p>
+<ol>
+<li><strong>门控机制</strong>：<code>gate * up</code> 让网络动态控制信息流动</li>
+<li><strong>更丰富的非线性</strong>：双重投影+乘法增加了表达能力</li>
+<li><strong>Swish/SiLU激活</strong>：<code>x * sigmoid(x)</code>，比ReLU平滑，在负区间有输出
+<strong>LoRA后的FFN前向传播：</strong></li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gate = (W_gate + B_gate @ A_gate) @ x  # 原始权重 + LoRA
+</span></span><span class="line"><span class="cl">up = (W_up + B_up @ A_up) @ x
+</span></span><span class="line"><span class="cl">output = (W_down + B_down @ A_down) @ (SiLU(gate) * up)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关于量化参数，刚开始我对这个概念理解得不够透彻。
+实际上，量化并不是直接把权重变成4-bit，而是需要<strong>额外的元数据</strong>来还原原始值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># ============= 标准量化过程 =============
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">原始权重 (FP16):
+</span></span><span class="line"><span class="cl">W = [0.123, -0.456, 0.789, -0.234, ...]  # 每个数2 bytes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 步骤1: 找到最大最小值，计算缩放因子
+</span></span><span class="line"><span class="cl">max_val = max(W) = 0.789
+</span></span><span class="line"><span class="cl">min_val = min(W) = -0.456
+</span></span><span class="line"><span class="cl">scale = (max_val - min_val) / 15  # 4-bit有16个级别(0-15)
+</span></span><span class="line"><span class="cl">zero_point = 量化后的零点
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 步骤2: 量化公式
+</span></span><span class="line"><span class="cl">W_quantized = round((W - zero_point) / scale)
+</span></span><span class="line"><span class="cl"># 结果: [7, 2, 15, 4, ...]  # 每个数只用4 bits
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 步骤3: 反量化（推理时需要）
+</span></span><span class="line"><span class="cl">W_dequantized = W_quantized * scale + zero_point
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>量化过程需要保存<code>scale</code>和<code>zero_point</code>这两个量化参数（通常以FP32或FP16存储）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># ============= 单次量化 =============</span>
+</span></span><span class="line"><span class="cl"><span class="n">原始权重</span> <span class="p">(</span><span class="n">FP16</span><span class="p">):</span> <span class="mf">1.5</span><span class="n">B</span> <span class="err">×</span> <span class="mi">2</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">3</span> <span class="n">GB</span>
+</span></span><span class="line"><span class="cl">    <span class="err">↓</span> <span class="n">量化</span>
+</span></span><span class="line"><span class="cl"><span class="mi">4</span><span class="o">-</span><span class="n">bit权重</span><span class="p">:</span> <span class="mf">1.5</span><span class="n">B</span> <span class="err">×</span> <span class="mf">0.5</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="n">GB</span>
+</span></span><span class="line"><span class="cl"><span class="n">量化参数</span><span class="p">:</span> <span class="mi">23</span><span class="n">M</span> <span class="err">×</span> <span class="mi">4</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="mf">93.75</span> <span class="n">MB</span>  <span class="err">←</span> <span class="n">还是不小</span><span class="err">！</span>
+</span></span><span class="line"><span class="cl"><span class="o">-----------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">总计</span><span class="p">:</span> <span class="mf">0.75</span> <span class="o">+</span> <span class="mf">0.094</span> <span class="err">≈</span> <span class="mf">0.844</span> <span class="n">GB</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ============= 双重量化 =============</span>
+</span></span><span class="line"><span class="cl"><span class="n">原始权重</span> <span class="p">(</span><span class="n">FP16</span><span class="p">):</span> <span class="mf">1.5</span><span class="n">B</span> <span class="err">×</span> <span class="mi">2</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">3</span> <span class="n">GB</span>
+</span></span><span class="line"><span class="cl">    <span class="err">↓</span> <span class="n">第一次量化</span>
+</span></span><span class="line"><span class="cl"><span class="mi">4</span><span class="o">-</span><span class="n">bit权重</span><span class="p">:</span> <span class="mf">1.5</span><span class="n">B</span> <span class="err">×</span> <span class="mf">0.5</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="n">GB</span>
+</span></span><span class="line"><span class="cl"><span class="n">量化参数1</span><span class="p">:</span> <span class="mi">23</span><span class="n">M</span> <span class="err">×</span> <span class="mi">2</span> <span class="nb">bytes</span> <span class="p">(</span><span class="n">FP16</span><span class="p">)</span> <span class="o">=</span> <span class="mf">46.88</span> <span class="n">MB</span>
+</span></span><span class="line"><span class="cl">    <span class="err">↓</span> <span class="n">第二次量化</span><span class="err">（</span><span class="n">对scale和zero_point量化</span><span class="err">）</span>
+</span></span><span class="line"><span class="cl"><span class="n">量化参数1</span> <span class="p">(</span><span class="mi">8</span><span class="o">-</span><span class="n">bit</span><span class="p">):</span> <span class="mi">23</span><span class="n">M</span> <span class="err">×</span> <span class="mi">1</span> <span class="n">byte</span> <span class="o">=</span> <span class="mf">23.44</span> <span class="n">MB</span>
+</span></span><span class="line"><span class="cl"><span class="n">量化参数2</span> <span class="p">(</span><span class="n">FP16</span><span class="p">):</span> <span class="o">~</span><span class="mi">256</span> <span class="n">组</span> <span class="err">×</span> <span class="mi">4</span> <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">KB</span>
+</span></span><span class="line"><span class="cl"><span class="o">-----------------------------------------</span>
+</span></span><span class="line"><span class="cl"><span class="n">总计</span><span class="p">:</span> <span class="mf">0.75</span> <span class="o">+</span> <span class="mf">0.023</span> <span class="o">+</span> <span class="mf">0.001</span> <span class="err">≈</span> <span class="mf">0.774</span> <span class="n">GB</span> <span class="err">⬇️</span> <span class="n">节省</span><span class="o">~</span><span class="mi">70</span><span class="n">MB</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>神经网络对微小扰动具有鲁棒性，同时量化参数的误差会被放大系数所缩小。双重量化是以微小的精度损失换取可观的显存节省，这个权衡在绝大多数场景下都是值得的。</p>
+<p>QLoRA原论文（Dettmers et al., 2023）进行了详细实验：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">模型: LLaMA-65B
+</span></span><span class="line"><span class="cl">任务: 多种NLP benchmarks
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">┌─────────────────┬──────────┬──────────┬──────────┐
+</span></span><span class="line"><span class="cl">│ 配置            │ MMLU     │ BBH      │ 显存     │
+</span></span><span class="line"><span class="cl">├─────────────────┼──────────┼──────────┼──────────┤
+</span></span><span class="line"><span class="cl">│ FP16 全量微调   │ 63.4%    │ 51.2%    │ 780 GB   │
+</span></span><span class="line"><span class="cl">│ 4-bit单次量化   │ 63.2%    │ 51.0%    │ 48 GB    │
+</span></span><span class="line"><span class="cl">│ 4-bit双重量化   │ 63.1%    │ 50.9%    │ 41 GB    │
+</span></span><span class="line"><span class="cl">└─────────────────┴──────────┴──────────┴──────────┘
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">性能下降: 0.1-0.3个百分点 ⬇️ (可忽略)
+</span></span><span class="line"><span class="cl">显存节省: 7 GB ⬇️ (约15%)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong><code>r</code></strong>：秩（rank），推荐范围4-32，表示旁路矩阵的中间维度大小。</p>
+<p>以 <code>h = W @ x + (B @ A) @ x</code> 为例：</p>
+<ul>
+<li><strong>W</strong>：原始预训练权重矩阵（冻结不动），维度为 <code>[d_out, d_in]</code></li>
+<li><strong>A</strong>：下投影矩阵，维度为 <code>[r, d_in]</code></li>
+<li><strong>B</strong>：上投影矩阵，维度为 <code>[d_out, r]</code></li>
+<li><strong>r</strong>：LoRA秩（rank），是低秩分解的维度</li>
+</ul>
+<p>假设原始权重 W 为 <code>[4096, 4096]</code>（Qwen的某层维度）：A 是 <code>[8, 4096]</code>，B 是 <code>[4096, 8]</code>，则参数量从原始的 16M → LoRA 仅 65K（减少99.6%）。</p>
+<ul>
+<li><strong>r 越大</strong>：模型容量越强，适应能力越好，但参数量相应增加</li>
+<li><strong>r 越小</strong>：参数极少，训练速度快，但可能欠拟合</li>
+<li><strong>经验值</strong>：<code>r=4~16</code> 对大多数任务已足够，配置 <code>r=8</code> 是合理的选择
+<strong><code>lora_dropout</code></strong>：在 <code>B @ A</code> 计算后、加回主路径前应用。<strong>标准dropout</strong>：应用于FFN输出、Attention输出等位置。</li>
+</ul>
+<p><strong><code>target_modules</code></strong>：指定在哪些模块上添加LoRA以节省训练成本，根据模型结构合理设置即可。</p>
+<p><strong><code>warmup_ratio</code></strong>：预热阶段占总训练步数的比例。预热期间学习率变化与主训练阶段不同。</p>
+<p><strong>计算示例：</strong></p>
+<ul>
+<li>总步数 = (数据集大小 / 批次大小) × 训练轮数</li>
+<li>预热步数 = 总步数 × 0.1</li>
+</ul>
+<ol>
+<li><strong>预热阶段（0-10%步数）</strong>：学习率从 <code>0</code> 线性增长到 <code>2e-4</code></li>
+<li><strong>主训练阶段（10%-100%）</strong>：学习率按余弦衰减至接近0</li>
+</ol>
+<hr>
+<p>饭后和朋友一起打《大乱斗》，玩了好几个小时。</p>
+<p>随后开始训练，但遇到了环境配置问题，调试了很久。最终放弃了我最习惯的uv pip虚拟环境，改用miniconda，否则会有太多适配问题。</p>
+<p>另外我发现，让AI帮忙配置PyTorch时，它总是会自动安装2.5版本，而该版本与5070显卡不兼容。这似乎是因为其训练数据只截止到那个时期，只有明确要求联网搜索才能获得正确的版本信息。</p>
+<p>配好环境后，我写了个脚本拉取50个样本，确认模型能够正常运行，然后使用wandb进行远程监控。</p>
+<p>最后决定不在本地运行，将任务部署到Colab上，明天继续。已经2点了。</p>
+
+  </div>
+  
+  
+  <div class="post-tags">
+    <a href="/tags/diary/">#diary</a> 
+  </div>
+  
+  
+  <nav class="post-nav">
+    <a class="prev" href="/p/%E8%BD%AC%E7%A0%81day16%E5%AE%8C%E6%88%90%E4%BA%86qwen-lora%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E9%A1%B9%E7%9B%AE/">← 转码day16：完成了qwen lora微调分类项目</a>
+    <a class="next" href="/p/%E8%BD%AC%E7%A0%81day14%E6%B2%A1%E5%AD%A6%E4%B9%A0/">转码day14：没学习 →</a>
+  </nav>
+  
+</article>
+
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span>© 2025–2026 Qianqiu</span>
+    <span class="foot-links">
+      <a href="https://github.com/qianqiuqiu" target="_blank" rel="noopener">github</a><a href="/img/wechat.jpg">wechat</a>
+      <a href="/index.xml">rss</a>
+    </span>
+  </div>
+</footer>
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var r=document.documentElement;
+  var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
+  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+});
+</script>
+</body>
+</html>
