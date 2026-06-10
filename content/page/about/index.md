@@ -10,25 +10,20 @@ license: CC BY-NC-ND
 lastmod: '2026-06-11'
 ---
 
-### Hi there, I'm 铅秋 👋
+Hi, I'm 铅秋 👋
 
-I am currently a Master's student at **Peking University** (Class of 2025), and I obtained my undergraduate degree from **Sichuan University** (Class of 2021).
+Master's student in Electronic Information at Peking University. Undergrad in IC design at Sichuan University.
 
-My research interests include **VLM**, **RLHF**, and **MLsys**.
+I'm an introvert who likes taking things apart to see how they work — from chips to language models. I'd rather understand one thing from first principles than skim ten. Drawn to quiet, curiosity-driven work over noise and hype.
 
-### What I'm Working On
+## Off the Clock
 
-*   🤖 **VLM / RLHF**: Vision-language models and reinforcement learning from human feedback (training, alignment, evaluation).
-*   ⚙️ **MLsys**: Machine learning systems — training and inference infrastructure.
-
-### Off the Clock
-
-🎮 Games · 📖 Web novels · 🎬 Anime
+🚴 Long-distance cycling · 🎬 Anime (KyoAni) · 📖 Web novels · 🎮 Esports
 
 > "Be yourself, crave the unknown."
 
-### Contact
+## Contact
 
-*   Email: [1244883769@qq.com](mailto:1244883769@qq.com)
-*   GitHub: [qianqiuqiu](https://github.com/qianqiuqiu)
-*   Website: [qianqiuqiu.xyz](https://qianqiuqiu.xyz/)
+- Email: [1244883769@qq.com](mailto:1244883769@qq.com)
+- GitHub: [qianqiuqiu](https://github.com/qianqiuqiu)
+- Website: [qianqiuqiu.xyz](https://qianqiuqiu.xyz/)
