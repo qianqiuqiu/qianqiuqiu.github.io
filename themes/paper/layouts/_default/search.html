@@ -10,6 +10,17 @@
       stat=document.getElementById("search-stat"),
       idx=null;
   function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function mark(s,q){
+    var i=s.toLowerCase().indexOf(q);
+    if(i<0)return esc(s);
+    return esc(s.slice(0,i))+"<mark>"+esc(s.slice(i,i+q.length))+"</mark>"+esc(s.slice(i+q.length));
+  }
+  function excerpt(content,q){
+    var i=content.toLowerCase().indexOf(q);
+    if(i<0)return "";
+    var a=Math.max(0,i-50),b=Math.min(content.length,i+q.length+70);
+    return (a>0?"…":"")+content.slice(a,b)+(b<content.length?"…":"");
+  }
   function load(cb){
     if(idx)return cb();
     fetch({{ "index.json" | relLangURL }}).then(function(r){return r.json()}).then(function(d){idx=d;cb()});
@@ -25,7 +36,8 @@
     hits.slice(0,50).forEach(function(p){
       var li=document.createElement("li");
       li.className="post-item";
-      li.innerHTML='<span class="post-date">'+p.date+'</span><span class="post-line"><a class="post-title" href="'+p.url+'">'+esc(p.title)+"</a></span>";
+      var ex=excerpt(p.content,q);
+      li.innerHTML='<span class="post-date">'+p.date+'</span><span class="post-line"><a class="post-title" href="'+p.url+'">'+mark(p.title,q)+"</a>"+(ex?'<span class="search-excerpt">'+mark(ex,q)+"</span>":"")+"</span>";
       out.appendChild(li);
     });
   }

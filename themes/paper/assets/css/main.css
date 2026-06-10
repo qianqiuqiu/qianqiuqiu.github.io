@@ -188,6 +188,61 @@ main.wrap {
 .post-cat::after  { content: "]"; }
 .post-cat:hover   { color: var(--accent); }
 
+/* ---------- home sections ---------- */
+.home-sec-title {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  margin: 26px 0 6px;
+  letter-spacing: 0.01em;
+}
+
+.home-sec-title .hash { color: var(--accent); font-weight: 400; }
+
+.home-sec { margin-bottom: 8px; }
+
+/* ---------- toc ---------- */
+.post-toc {
+  border: 1px solid var(--line);
+  background: var(--bg-alt);
+  padding: 10px 16px;
+  margin: 0 0 26px;
+  font-size: 0.9rem;
+}
+
+.post-toc summary {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--fg-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+.post-toc summary:hover { color: var(--accent); }
+
+.post-toc ol {
+  margin: 8px 0 4px;
+  padding-left: 1.4em;
+  line-height: 1.7;
+}
+
+.post-toc a { color: var(--fg-dim); }
+.post-toc a:hover { color: var(--accent); }
+
+/* ---------- search excerpt ---------- */
+.search-excerpt {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--fg-dim);
+  line-height: 1.6;
+  margin-top: 2px;
+}
+
+mark {
+  background: var(--accent-dim);
+  color: var(--fg);
+  padding: 0 2px;
+}
+
 /* ---------- pagination ---------- */
 .pager {
   display: flex;

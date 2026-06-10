@@ -6,6 +6,8 @@
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary | plainify | truncate 150 }}{{ else }}{{ site.Params.description }}{{ end }}{{ end }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{ template "_internal/opengraph.html" . }}
+{{ template "_internal/twitter_cards.html" . }}
 {{ with .OutputFormats.Get "rss" -}}
 <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">
 {{- end }}

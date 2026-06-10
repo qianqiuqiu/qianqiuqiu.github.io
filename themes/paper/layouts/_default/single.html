@@ -8,6 +8,12 @@
       {{ if .Params.readingTime }} · {{ .ReadingTime }} min{{ end }}
     </div>
   </header>
+  {{ if and (ne .Params.toc false) (gt .WordCount 400) (gt (len .TableOfContents) 60) }}
+  <details class="post-toc">
+    <summary>toc</summary>
+    {{ .TableOfContents }}
+  </details>
+  {{ end }}
   <div class="content">
     {{ .Content }}
   </div>

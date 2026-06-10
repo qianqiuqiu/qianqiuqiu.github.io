@@ -12,6 +12,14 @@
 {{ end }}
 {{ $posts := where site.RegularPages "Type" "post" }}
 {{ $pag := .Paginate $posts }}
+{{ $featured := first 5 (where $posts ".Params.categories" "intersect" (slice "Research")) }}
+{{ if and $featured (eq $pag.PageNumber 1) }}
+<section class="home-sec">
+  <h2 class="home-sec-title"><span class="hash">##</span> research</h2>
+  {{ partial "post-list.html" $featured }}
+</section>
+<h2 class="home-sec-title"><span class="hash">##</span> recent</h2>
+{{ end }}
 {{ partial "post-list.html" $pag.Pages }}
 {{ partial "pagination.html" . }}
 {{ end }}
