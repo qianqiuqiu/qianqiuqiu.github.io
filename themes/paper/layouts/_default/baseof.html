@@ -13,15 +13,12 @@
 {{- end }}
 {{ with resources.Get "img/avatar.png" }}{{ $f := .Resize "128x128 png" }}<link rel="icon" type="image/png" href="{{ $f.RelPermalink }}">{{ end }}
 <script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
-{{ $css := slice (resources.Get "css/main.css") (resources.Get "css/chroma-light.css") (resources.Get "css/chroma-dark.css") | resources.Concat "css/bundle.css" | minify | fingerprint -}}
+{{ $css := slice (resources.Get "css/fonts.css") (resources.Get "css/main.css") (resources.Get "css/chroma-light.css") (resources.Get "css/chroma-dark.css") | resources.Concat "css/bundle.css" | minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{ if and .IsPage (ne .Params.math false) -}}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+<link rel="stylesheet" href="{{ "vendor/katex/katex.min.css" | relURL }}">
+<script defer src="{{ "vendor/katex/katex.min.js" | relURL }}"></script>
+<script defer src="{{ "vendor/katex/contrib/auto-render.min.js" | relURL }}"
   onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
 {{- end }}
 </head>
