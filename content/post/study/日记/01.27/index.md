@@ -3,7 +3,7 @@ title: "转码学习day7"
 date: 2026-01-27
 categories: 
   - 转码日记
-tag: 
+tags:
   - diary
 math: true 
 ---

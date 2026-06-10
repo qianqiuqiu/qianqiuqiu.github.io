@@ -3,7 +3,7 @@ title: 学习day30：春节中
 date: 2026-02-19
 categories:
   - 转码日记
-tag:
+tags:
   - diary
 math: true
 ---

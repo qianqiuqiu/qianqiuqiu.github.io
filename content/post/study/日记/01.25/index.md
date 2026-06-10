@@ -4,7 +4,7 @@ date: 2026-01-25
 image: 1.jpg
 categories: 
   - 转码日记
-tag: 
+tags:
   - diary
 math: true 
 ---

@@ -32,14 +32,11 @@ menu:
           url: /
           weight: 1
         - name: diary
-          url: /categories/diary/
+          url: /categories/转码日记/
           weight: 2
         - name: research
           url: /categories/research/
           weight: 3
-        - name: entertain
-          url: /categories/entertain/
-          weight: 4
         - name: archives
           url: /archives/
           weight: 5

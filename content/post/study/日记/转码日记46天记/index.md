@@ -2,8 +2,8 @@
 title: 转码日记46天记
 date: 2026-03-08T00:00:00+08:00
 categories:
-  - diary
-tag:
+  - 转码日记
+tags:
   - diary
 ---
 

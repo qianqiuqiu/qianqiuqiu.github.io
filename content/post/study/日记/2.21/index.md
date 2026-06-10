@@ -3,7 +3,7 @@ title: 学习day32：
 date: 2026-02-21
 categories:
   - 转码日记
-tag:
+tags:
   - diary
 math: true
 ---

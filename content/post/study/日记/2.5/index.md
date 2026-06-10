@@ -3,7 +3,7 @@ title: 转码day16：完成了qwen lora微调分类项目
 date: 2026-02-05
 categories:
   - 转码日记
-tag:
+tags:
   - diary
 math: true
 ---

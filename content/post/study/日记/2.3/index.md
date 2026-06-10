@@ -3,7 +3,7 @@ title: 转码day14：没学习
 date: 2026-02-03
 categories:
   - 转码日记
-tag:
+tags:
   - diary
 math: true
 ---
