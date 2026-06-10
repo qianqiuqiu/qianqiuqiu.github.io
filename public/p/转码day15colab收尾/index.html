@@ -7,16 +7,31 @@
 <meta name="description" content="下午两点半开始学习。QLoRA（Quantized LoRA）是指量化LoRA，其中quantized表示使用4-bit量化。
 1 2 3 4 5 6 quantization_config = BitsAndBytesConfig( load_in_4bit=True, # 使用4-bit量化 …">
 <link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81day15colab%E6%94%B6%E5%B0%BE/">
+<meta property="og:url" content="http://localhost:1313/p/%E8%BD%AC%E7%A0%81day15colab%E6%94%B6%E5%B0%BE/">
+	<meta property="og:site_name" content="qianqiu">
+	<meta property="og:title" content="转码day15：colab收尾">
+	<meta property="og:description" content="下午两点半开始学习。QLoRA（Quantized LoRA）是指量化LoRA，其中quantized表示使用4-bit量化。
+1 2 3 4 5 6 quantization_config = BitsAndBytesConfig( load_in_4bit=True, # 使用4-bit量化 bnb_4bit_quant_type=&#34;nf4&#34;, # NF4量化类型 bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_use_double_quant=True, # 双重量化 ) 将模型权重从 FP16/BF16 (16-bit) 压缩到 4-bit 使用 NF4 (4-bit NormalFloat) 量化，这是专门为神经网络权重设计的量化格式 双重量化：连量化参数本身也量化，进一步节省显存 LoRA底秩适配： 1 2 3 4 5 lora_config = LoraConfig( r=8, # 秩为8的低秩矩阵 lora_alpha=32, target_modules=[&#34;q_proj&#34;, &#34;k_proj&#34;, &#34;v_proj&#34;, ...], ) 常规全量微调：">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-02-04T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-02-04T00:00:00+00:00">
+		<meta property="article:tag" content="Diary">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="转码day15：colab收尾">
+	<meta name="twitter:description" content="下午两点半开始学习。QLoRA（Quantized LoRA）是指量化LoRA，其中quantized表示使用4-bit量化。
+1 2 3 4 5 6 quantization_config = BitsAndBytesConfig( load_in_4bit=True, # 使用4-bit量化 bnb_4bit_quant_type=&#34;nf4&#34;, # NF4量化类型 bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_use_double_quant=True, # 双重量化 ) 将模型权重从 FP16/BF16 (16-bit) 压缩到 4-bit 使用 NF4 (4-bit NormalFloat) 量化，这是专门为神经网络权重设计的量化格式 双重量化：连量化参数本身也量化，进一步节省显存 LoRA底秩适配： 1 2 3 4 5 lora_config = LoraConfig( r=8, # 秩为8的低秩矩阵 lora_alpha=32, target_modules=[&#34;q_proj&#34;, &#34;k_proj&#34;, &#34;v_proj&#34;, ...], ) 常规全量微调：">
+
 
 <link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
 <script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
-<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+<link rel="stylesheet" href="/css/bundle.min.48374789c7111886fd3984503b9083bf2b706d68cc0c67d9a408f99dedcebd33.css">
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+<script defer src="/vendor/katex/katex.min.js"></script>
+<script defer src="/vendor/katex/contrib/auto-render.min.js"
   onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
 </head>
 <body>
@@ -28,11 +43,9 @@
       
       <a href="/">home</a>
       
-      <a href="/categories/diary/">diary</a>
+      <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">diary</a>
       
       <a href="/categories/research/">research</a>
-      
-      <a href="/categories/entertain/">entertain</a>
       
       <a href="/archives/">archives</a>
       
@@ -55,6 +68,20 @@
       
     </div>
   </header>
+  
+  <details class="post-toc">
+    <summary>toc</summary>
+    <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li><a href="#冻结参数-attention层--ffn层的所有权重矩阵">冻结参数 = <strong>Attention层 + FFN层的所有权重矩阵</strong></a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+  </details>
+  
   <div class="content">
     <p>下午两点半开始学习。QLoRA（Quantized LoRA）是指量化LoRA，其中quantized表示使用4-bit量化。</p>
 <div class="highlight"><div class="chroma">
@@ -202,61 +229,29 @@ LoRA底秩适配：</li>
 <li><strong>Swish/SiLU激活</strong>：<code>x * sigmoid(x)</code>，比ReLU平滑，在负区间有输出
 <strong>LoRA后的FFN前向传播：</strong></li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gate = (W_gate + B_gate @ A_gate) @ x  # 原始权重 + LoRA
-</span></span><span class="line"><span class="cl">up = (W_up + B_up @ A_up) @ x
-</span></span><span class="line"><span class="cl">output = (W_down + B_down @ A_down) @ (SiLU(gate) * up)
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>关于量化参数，刚开始我对这个概念理解得不够透彻。
+<pre tabindex="0"><code>gate = (W_gate + B_gate @ A_gate) @ x  # 原始权重 + LoRA
+up = (W_up + B_up @ A_up) @ x
+output = (W_down + B_down @ A_down) @ (SiLU(gate) * up)
+</code></pre><p>关于量化参数，刚开始我对这个概念理解得不够透彻。
 实际上，量化并不是直接把权重变成4-bit，而是需要<strong>额外的元数据</strong>来还原原始值：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># ============= 标准量化过程 =============
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">原始权重 (FP16):
-</span></span><span class="line"><span class="cl">W = [0.123, -0.456, 0.789, -0.234, ...]  # 每个数2 bytes
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 步骤1: 找到最大最小值，计算缩放因子
-</span></span><span class="line"><span class="cl">max_val = max(W) = 0.789
-</span></span><span class="line"><span class="cl">min_val = min(W) = -0.456
-</span></span><span class="line"><span class="cl">scale = (max_val - min_val) / 15  # 4-bit有16个级别(0-15)
-</span></span><span class="line"><span class="cl">zero_point = 量化后的零点
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 步骤2: 量化公式
-</span></span><span class="line"><span class="cl">W_quantized = round((W - zero_point) / scale)
-</span></span><span class="line"><span class="cl"># 结果: [7, 2, 15, 4, ...]  # 每个数只用4 bits
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 步骤3: 反量化（推理时需要）
-</span></span><span class="line"><span class="cl">W_dequantized = W_quantized * scale + zero_point
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>量化过程需要保存<code>scale</code>和<code>zero_point</code>这两个量化参数（通常以FP32或FP16存储）。</p>
+<pre tabindex="0"><code># ============= 标准量化过程 =============
+
+原始权重 (FP16):
+W = [0.123, -0.456, 0.789, -0.234, ...]  # 每个数2 bytes
+
+# 步骤1: 找到最大最小值，计算缩放因子
+max_val = max(W) = 0.789
+min_val = min(W) = -0.456
+scale = (max_val - min_val) / 15  # 4-bit有16个级别(0-15)
+zero_point = 量化后的零点
+
+# 步骤2: 量化公式
+W_quantized = round((W - zero_point) / scale)
+# 结果: [7, 2, 15, 4, ...]  # 每个数只用4 bits
+
+# 步骤3: 反量化（推理时需要）
+W_dequantized = W_quantized * scale + zero_point
+</code></pre><p>量化过程需要保存<code>scale</code>和<code>zero_point</code>这两个量化参数（通常以FP32或FP16存储）。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -303,39 +298,20 @@ LoRA底秩适配：</li>
 </div>
 </div><p>神经网络对微小扰动具有鲁棒性，同时量化参数的误差会被放大系数所缩小。双重量化是以微小的精度损失换取可观的显存节省，这个权衡在绝大多数场景下都是值得的。</p>
 <p>QLoRA原论文（Dettmers et al., 2023）进行了详细实验：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">模型: LLaMA-65B
-</span></span><span class="line"><span class="cl">任务: 多种NLP benchmarks
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">┌─────────────────┬──────────┬──────────┬──────────┐
-</span></span><span class="line"><span class="cl">│ 配置            │ MMLU     │ BBH      │ 显存     │
-</span></span><span class="line"><span class="cl">├─────────────────┼──────────┼──────────┼──────────┤
-</span></span><span class="line"><span class="cl">│ FP16 全量微调   │ 63.4%    │ 51.2%    │ 780 GB   │
-</span></span><span class="line"><span class="cl">│ 4-bit单次量化   │ 63.2%    │ 51.0%    │ 48 GB    │
-</span></span><span class="line"><span class="cl">│ 4-bit双重量化   │ 63.1%    │ 50.9%    │ 41 GB    │
-</span></span><span class="line"><span class="cl">└─────────────────┴──────────┴──────────┴──────────┘
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">性能下降: 0.1-0.3个百分点 ⬇️ (可忽略)
-</span></span><span class="line"><span class="cl">显存节省: 7 GB ⬇️ (约15%)
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong><code>r</code></strong>：秩（rank），推荐范围4-32，表示旁路矩阵的中间维度大小。</p>
+<pre tabindex="0"><code>模型: LLaMA-65B
+任务: 多种NLP benchmarks
+
+┌─────────────────┬──────────┬──────────┬──────────┐
+│ 配置            │ MMLU     │ BBH      │ 显存     │
+├─────────────────┼──────────┼──────────┼──────────┤
+│ FP16 全量微调   │ 63.4%    │ 51.2%    │ 780 GB   │
+│ 4-bit单次量化   │ 63.2%    │ 51.0%    │ 48 GB    │
+│ 4-bit双重量化   │ 63.1%    │ 50.9%    │ 41 GB    │
+└─────────────────┴──────────┴──────────┴──────────┘
+
+性能下降: 0.1-0.3个百分点 ⬇️ (可忽略)
+显存节省: 7 GB ⬇️ (约15%)
+</code></pre><p><strong><code>r</code></strong>：秩（rank），推荐范围4-32，表示旁路矩阵的中间维度大小。</p>
 <p>以 <code>h = W @ x + (B @ A) @ x</code> 为例：</p>
 <ul>
 <li><strong>W</strong>：原始预训练权重矩阵（冻结不动），维度为 <code>[d_out, d_in]</code></li>
@@ -382,6 +358,14 @@ LoRA底秩适配：</li>
   </nav>
   
 </article>
+<div class="read-progress" aria-hidden="true"></div>
+<script>
+(function(){
+  var bar=document.querySelector(".read-progress"),h=document.documentElement;
+  function u(){var max=h.scrollHeight-h.clientHeight;bar.style.transform="scaleX("+(max>0?h.scrollTop/max:0)+")"}
+  addEventListener("scroll",u,{passive:true});addEventListener("resize",u,{passive:true});u();
+})();
+</script>
 
 </main>
 <footer class="site-foot">
@@ -394,10 +378,19 @@ LoRA底秩适配：</li>
   </div>
 </footer>
 <script>
-document.getElementById("theme-toggle").addEventListener("click",function(){
+document.getElementById("theme-toggle").addEventListener("click",function(e){
   var r=document.documentElement;
   var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
-  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+  var apply=function(){r.setAttribute("data-theme",t);localStorage.setItem("theme",t)};
+  if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches){apply();return}
+  var x=e.clientX||window.innerWidth-30,y=e.clientY||30;
+  var radius=Math.hypot(Math.max(x,window.innerWidth-x),Math.max(y,window.innerHeight-y));
+  document.startViewTransition(apply).ready.then(function(){
+    r.animate(
+      {clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+radius+"px at "+x+"px "+y+"px)"]},
+      {duration:450,easing:"ease-in-out",pseudoElement:"::view-transition-new(root)"}
+    );
+  });
 });
 </script>
 </body>

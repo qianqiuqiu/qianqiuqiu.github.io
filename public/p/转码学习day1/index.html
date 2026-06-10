@@ -7,16 +7,29 @@
 <meta name="description" content="早上被冷醒，不得不说软微的暖气真是有点糟糕，晚上十一二点好像还马马虎虎，半夜就慢慢不行了，早上六七点人在意识模糊的时候被冻醒了，但是又爬不起来。接着睡到九点半，实在冻得受不了了，挣扎了一下爬起来。
 ">
 <link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day1/">
+<meta property="og:url" content="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day1/">
+	<meta property="og:site_name" content="qianqiu">
+	<meta property="og:title" content="转码学习day1">
+	<meta property="og:description" content="早上被冷醒，不得不说软微的暖气真是有点糟糕，晚上十一二点好像还马马虎虎，半夜就慢慢不行了，早上六七点人在意识模糊的时候被冻醒了，但是又爬不起来。接着睡到九点半，实在冻得受不了了，挣扎了一下爬起来。">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-01-21T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-01-21T00:00:00+00:00">
+		<meta property="article:tag" content="Diary">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="转码学习day1">
+	<meta name="twitter:description" content="早上被冷醒，不得不说软微的暖气真是有点糟糕，晚上十一二点好像还马马虎虎，半夜就慢慢不行了，早上六七点人在意识模糊的时候被冻醒了，但是又爬不起来。接着睡到九点半，实在冻得受不了了，挣扎了一下爬起来。">
+
 
 <link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
 <script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
-<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+<link rel="stylesheet" href="/css/bundle.min.48374789c7111886fd3984503b9083bf2b706d68cc0c67d9a408f99dedcebd33.css">
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+<script defer src="/vendor/katex/katex.min.js"></script>
+<script defer src="/vendor/katex/contrib/auto-render.min.js"
   onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
 </head>
 <body>
@@ -28,11 +41,9 @@
       
       <a href="/">home</a>
       
-      <a href="/categories/diary/">diary</a>
+      <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">diary</a>
       
       <a href="/categories/research/">research</a>
-      
-      <a href="/categories/entertain/">entertain</a>
       
       <a href="/archives/">archives</a>
       
@@ -55,6 +66,7 @@
       
     </div>
   </header>
+  
   <div class="content">
     <p>早上被冷醒，不得不说软微的暖气真是有点糟糕，晚上十一二点好像还马马虎虎，半夜就慢慢不行了，早上六七点人在意识模糊的时候被冻醒了，但是又爬不起来。接着睡到九点半，实在冻得受不了了，挣扎了一下爬起来。</p>
 <p>今天打算先刷一下力扣，然后和朋友去颐和园滑冰，晚上回来再继续学习。</p>
@@ -81,6 +93,14 @@
   </nav>
   
 </article>
+<div class="read-progress" aria-hidden="true"></div>
+<script>
+(function(){
+  var bar=document.querySelector(".read-progress"),h=document.documentElement;
+  function u(){var max=h.scrollHeight-h.clientHeight;bar.style.transform="scaleX("+(max>0?h.scrollTop/max:0)+")"}
+  addEventListener("scroll",u,{passive:true});addEventListener("resize",u,{passive:true});u();
+})();
+</script>
 
 </main>
 <footer class="site-foot">
@@ -93,10 +113,19 @@
   </div>
 </footer>
 <script>
-document.getElementById("theme-toggle").addEventListener("click",function(){
+document.getElementById("theme-toggle").addEventListener("click",function(e){
   var r=document.documentElement;
   var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
-  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+  var apply=function(){r.setAttribute("data-theme",t);localStorage.setItem("theme",t)};
+  if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches){apply();return}
+  var x=e.clientX||window.innerWidth-30,y=e.clientY||30;
+  var radius=Math.hypot(Math.max(x,window.innerWidth-x),Math.max(y,window.innerHeight-y));
+  document.startViewTransition(apply).ready.then(function(){
+    r.animate(
+      {clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+radius+"px at "+x+"px "+y+"px)"]},
+      {duration:450,easing:"ease-in-out",pseudoElement:"::view-transition-new(root)"}
+    );
+  });
 });
 </script>
 </body>

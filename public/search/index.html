@@ -6,16 +6,26 @@
 <title>Search · qianqiu</title>
 <meta name="description" content="">
 <link rel="canonical" href="http://localhost:1313/search/">
+<meta property="og:url" content="http://localhost:1313/search/">
+	<meta property="og:site_name" content="qianqiu">
+	<meta property="og:title" content="Search">
+	<meta property="og:description" content="Master in PKU · VLM / RLHF / MLsys">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="page">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Search">
+	<meta name="twitter:description" content="Master in PKU · VLM / RLHF / MLsys">
+
 
 <link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
 <script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
-<link rel="stylesheet" href="/css/bundle.min.2ca53f2a59f71549e9dcb46d2fd7b0a4d670970b4a4e444d4fc7d7a3341799cb.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+<link rel="stylesheet" href="/css/bundle.min.48374789c7111886fd3984503b9083bf2b706d68cc0c67d9a408f99dedcebd33.css">
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+<script defer src="/vendor/katex/katex.min.js"></script>
+<script defer src="/vendor/katex/contrib/auto-render.min.js"
   onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
 </head>
 <body>
@@ -27,11 +37,9 @@
       
       <a href="/">home</a>
       
-      <a href="/categories/diary/">diary</a>
+      <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">diary</a>
       
       <a href="/categories/research/">research</a>
-      
-      <a href="/categories/entertain/">entertain</a>
       
       <a href="/archives/">archives</a>
       
@@ -56,6 +64,17 @@
       stat=document.getElementById("search-stat"),
       idx=null;
   function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function mark(s,q){
+    var i=s.toLowerCase().indexOf(q);
+    if(i<0)return esc(s);
+    return esc(s.slice(0,i))+"<mark>"+esc(s.slice(i,i+q.length))+"</mark>"+esc(s.slice(i+q.length));
+  }
+  function excerpt(content,q){
+    var i=content.toLowerCase().indexOf(q);
+    if(i<0)return "";
+    var a=Math.max(0,i-50),b=Math.min(content.length,i+q.length+70);
+    return (a>0?"…":"")+content.slice(a,b)+(b<content.length?"…":"");
+  }
   function load(cb){
     if(idx)return cb();
     fetch("/index.json").then(function(r){return r.json()}).then(function(d){idx=d;cb()});
@@ -71,7 +90,8 @@
     hits.slice(0,50).forEach(function(p){
       var li=document.createElement("li");
       li.className="post-item";
-      li.innerHTML='<span class="post-date">'+p.date+'</span><span class="post-line"><a class="post-title" href="'+p.url+'">'+esc(p.title)+"</a></span>";
+      var ex=excerpt(p.content,q);
+      li.innerHTML='<span class="post-date">'+p.date+'</span><span class="post-line"><a class="post-title" href="'+p.url+'">'+mark(p.title,q)+"</a>"+(ex?'<span class="search-excerpt">'+mark(ex,q)+"</span>":"")+"</span>";
       out.appendChild(li);
     });
   }

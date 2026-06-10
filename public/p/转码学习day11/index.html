@@ -6,16 +6,29 @@
 <title>转码学习day11 · qianqiu</title>
 <meta name="description" content="lc：98、51 熬夜看小说起晚了。晚上看了一下claudecode在国内怎么配置的问题，不得不说还真是八仙过海各显神通，什么法子都来了。CC官方防大陆也和防火一样生怕 claudecode在大陆能用。 配了一个小时差不多弄完了，然后把平时写日记的typora换成了obsidian并加上了 …">
 <link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day11/">
+<meta property="og:url" content="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day11/">
+	<meta property="og:site_name" content="qianqiu">
+	<meta property="og:title" content="转码学习day11">
+	<meta property="og:description" content="lc：98、51 熬夜看小说起晚了。晚上看了一下claudecode在国内怎么配置的问题，不得不说还真是八仙过海各显神通，什么法子都来了。CC官方防大陆也和防火一样生怕 claudecode在大陆能用。 配了一个小时差不多弄完了，然后把平时写日记的typora换成了obsidian并加上了claudecode插件。 开始做第一个项目：">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-01-31T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-01-31T00:00:00+00:00">
+		<meta property="article:tag" content="Diary">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="转码学习day11">
+	<meta name="twitter:description" content="lc：98、51 熬夜看小说起晚了。晚上看了一下claudecode在国内怎么配置的问题，不得不说还真是八仙过海各显神通，什么法子都来了。CC官方防大陆也和防火一样生怕 claudecode在大陆能用。 配了一个小时差不多弄完了，然后把平时写日记的typora换成了obsidian并加上了claudecode插件。 开始做第一个项目：">
+
 
 <link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
 <script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
-<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+<link rel="stylesheet" href="/css/bundle.min.48374789c7111886fd3984503b9083bf2b706d68cc0c67d9a408f99dedcebd33.css">
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+<script defer src="/vendor/katex/katex.min.js"></script>
+<script defer src="/vendor/katex/contrib/auto-render.min.js"
   onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
 </head>
 <body>
@@ -27,11 +40,9 @@
       
       <a href="/">home</a>
       
-      <a href="/categories/diary/">diary</a>
+      <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">diary</a>
       
       <a href="/categories/research/">research</a>
-      
-      <a href="/categories/entertain/">entertain</a>
       
       <a href="/archives/">archives</a>
       
@@ -54,6 +65,25 @@
       
     </div>
   </header>
+  
+  <details class="post-toc">
+    <summary>toc</summary>
+    <nav id="TableOfContents">
+  <ol>
+    <li><a href="#fine-tuning-qwen-15b-with-lora-for-chinese-sentiment-analysis">Fine-tuning Qwen-1.5B with LoRA for Chinese Sentiment Analysis</a>
+      <ol>
+        <li><a href="#automodelforsequenceclassification-分类任务"><strong>AutoModelForSequenceClassification</strong> (分类任务)</a></li>
+        <li><a href="#automodelforcausallm-生成任务"><strong>AutoModelForCausalLM</strong> (生成任务)</a></li>
+        <li><a href="#原始文本">原始文本</a></li>
+        <li><a href="#分词处理">分词处理</a></li>
+        <li><a href="#完整流程">完整流程</a></li>
+        <li><a href="#why-这么处理">Why 这么处理</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+  </details>
+  
   <div class="content">
     <p>lc：98、51
 熬夜看小说起晚了。晚上看了一下claudecode在国内怎么配置的问题，不得不说还真是八仙过海各显神通，什么法子都来了。CC官方防大陆也和防火一样生怕 claudecode在大陆能用。
@@ -321,6 +351,14 @@ task_type=TaskType.SEQ_CLS,  # 序列分类任务
   </nav>
   
 </article>
+<div class="read-progress" aria-hidden="true"></div>
+<script>
+(function(){
+  var bar=document.querySelector(".read-progress"),h=document.documentElement;
+  function u(){var max=h.scrollHeight-h.clientHeight;bar.style.transform="scaleX("+(max>0?h.scrollTop/max:0)+")"}
+  addEventListener("scroll",u,{passive:true});addEventListener("resize",u,{passive:true});u();
+})();
+</script>
 
 </main>
 <footer class="site-foot">
@@ -333,10 +371,19 @@ task_type=TaskType.SEQ_CLS,  # 序列分类任务
   </div>
 </footer>
 <script>
-document.getElementById("theme-toggle").addEventListener("click",function(){
+document.getElementById("theme-toggle").addEventListener("click",function(e){
   var r=document.documentElement;
   var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
-  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+  var apply=function(){r.setAttribute("data-theme",t);localStorage.setItem("theme",t)};
+  if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches){apply();return}
+  var x=e.clientX||window.innerWidth-30,y=e.clientY||30;
+  var radius=Math.hypot(Math.max(x,window.innerWidth-x),Math.max(y,window.innerHeight-y));
+  document.startViewTransition(apply).ready.then(function(){
+    r.animate(
+      {clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+radius+"px at "+x+"px "+y+"px)"]},
+      {duration:450,easing:"ease-in-out",pseudoElement:"::view-transition-new(root)"}
+    );
+  });
 });
 </script>
 </body>

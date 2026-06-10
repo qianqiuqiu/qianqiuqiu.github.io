@@ -7,16 +7,31 @@
 <meta name="description" content="今天摆了个大的，下了一白天的棋，上了个小段。我觉得可能是因为昨晚买了2月2回家的票之后，心思稍微有点飘。晚上九点开始做做样子。
 接着跟NLP的教程，发现了evaluate模块的变迁，evaluate.list_evaluation_modules(include_community=False)这个 …">
 <link rel="canonical" href="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day10/">
+<meta property="og:url" content="http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day10/">
+	<meta property="og:site_name" content="qianqiu">
+	<meta property="og:title" content="转码学习day10">
+	<meta property="og:description" content="今天摆了个大的，下了一白天的棋，上了个小段。我觉得可能是因为昨晚买了2月2回家的票之后，心思稍微有点飘。晚上九点开始做做样子。
+接着跟NLP的教程，发现了evaluate模块的变迁，evaluate.list_evaluation_modules(include_community=False)这个传参已经没用了，因为社区架构已经改变了，官方模块（如 accuracy, f1 等）已经迁移到 Hub 上作为社区模块托管。">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="post">
+		<meta property="article:published_time" content="2026-01-30T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-01-30T00:00:00+00:00">
+		<meta property="article:tag" content="Diary">
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="转码学习day10">
+	<meta name="twitter:description" content="今天摆了个大的，下了一白天的棋，上了个小段。我觉得可能是因为昨晚买了2月2回家的票之后，心思稍微有点飘。晚上九点开始做做样子。
+接着跟NLP的教程，发现了evaluate模块的变迁，evaluate.list_evaluation_modules(include_community=False)这个传参已经没用了，因为社区架构已经改变了，官方模块（如 accuracy, f1 等）已经迁移到 Hub 上作为社区模块托管。">
+
 
 <link rel="icon" type="image/png" href="/img/avatar_hu_ee6c307041e0fb78.png">
 <script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css">
-<link rel="stylesheet" href="/css/bundle.min.0e71173672d3f3613821705bcdd4293ae5903d4b91cd3ad9b2127a839f671cbc.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+<link rel="stylesheet" href="/css/bundle.min.48374789c7111886fd3984503b9083bf2b706d68cc0c67d9a408f99dedcebd33.css">
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+<script defer src="/vendor/katex/katex.min.js"></script>
+<script defer src="/vendor/katex/contrib/auto-render.min.js"
   onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false}],throwOnError:false});"></script>
 </head>
 <body>
@@ -28,11 +43,9 @@
       
       <a href="/">home</a>
       
-      <a href="/categories/diary/">diary</a>
+      <a href="/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/">diary</a>
       
       <a href="/categories/research/">research</a>
-      
-      <a href="/categories/entertain/">entertain</a>
       
       <a href="/archives/">archives</a>
       
@@ -55,6 +68,7 @@
       
     </div>
   </header>
+  
   <div class="content">
     <p>今天摆了个大的，下了一白天的棋，上了个小段。我觉得可能是因为昨晚买了2月2回家的票之后，心思稍微有点飘。晚上九点开始做做样子。</p>
 <p>接着跟NLP的教程，发现了evaluate模块的变迁，evaluate.list_evaluation_modules(<em>include_community</em>=False)这个传参已经没用了，因为社区架构已经改变了，<strong>官方模块（如 accuracy, f1 等）已经迁移到 Hub 上作为社区模块托管</strong>。</p>
@@ -89,6 +103,14 @@
   </nav>
   
 </article>
+<div class="read-progress" aria-hidden="true"></div>
+<script>
+(function(){
+  var bar=document.querySelector(".read-progress"),h=document.documentElement;
+  function u(){var max=h.scrollHeight-h.clientHeight;bar.style.transform="scaleX("+(max>0?h.scrollTop/max:0)+")"}
+  addEventListener("scroll",u,{passive:true});addEventListener("resize",u,{passive:true});u();
+})();
+</script>
 
 </main>
 <footer class="site-foot">
@@ -101,10 +123,19 @@
   </div>
 </footer>
 <script>
-document.getElementById("theme-toggle").addEventListener("click",function(){
+document.getElementById("theme-toggle").addEventListener("click",function(e){
   var r=document.documentElement;
   var t=r.getAttribute("data-theme")==="dark"?"light":"dark";
-  r.setAttribute("data-theme",t);localStorage.setItem("theme",t);
+  var apply=function(){r.setAttribute("data-theme",t);localStorage.setItem("theme",t)};
+  if(!document.startViewTransition||matchMedia("(prefers-reduced-motion: reduce)").matches){apply();return}
+  var x=e.clientX||window.innerWidth-30,y=e.clientY||30;
+  var radius=Math.hypot(Math.max(x,window.innerWidth-x),Math.max(y,window.innerHeight-y));
+  document.startViewTransition(apply).ready.then(function(){
+    r.animate(
+      {clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+radius+"px at "+x+"px "+y+"px)"]},
+      {duration:450,easing:"ease-in-out",pseudoElement:"::view-transition-new(root)"}
+    );
+  });
 });
 </script>
 </body>

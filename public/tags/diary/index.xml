@@ -12,9 +12,303 @@
 			<copyright>Qianqiu</copyright>
 		
 		
-			<lastBuildDate>Thu, 22 Jan 2026 00:00:00 +0000</lastBuildDate>
+			<lastBuildDate>Sun, 08 Mar 2026 00:00:00 +0800</lastBuildDate>
 		
 			<atom:link href="http://localhost:1313/tags/diary/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>转码日记46天记</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B046%E5%A4%A9%E8%AE%B0/</link>
+				<pubDate>Sun, 08 Mar 2026 00:00:00 +0800</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B046%E5%A4%A9%E8%AE%B0/</guid>
+				<description>&lt;p&gt;从1月21日在软微宿舍被冻醒开始刷力扣，到3月7日晚上光速接下offer，46天的转码找实习之旅就这样结束了。这篇文章是这段时间所有日记的索引，按周整理，方便回顾。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day46：尘埃落定</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day46%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A/</link>
+				<pubDate>Sat, 07 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day46%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A/</guid>
+				<description>&lt;p&gt;lc：189、238（for里套while，保证i元素有位置且位置不对就会继续换）、73（省空间的话就先确定第一行第一列要不要最后变0，然后用第一行第一列的空间作为其余位置变不变0的判断bool存储空间）、54&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day45：休养生息，也许接近这次的转码日记尾声了，期待下次再出发。</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day45%E4%BC%91%E5%85%BB%E7%94%9F%E6%81%AF%E4%B9%9F%E8%AE%B8%E6%8E%A5%E8%BF%91%E8%BF%99%E6%AC%A1%E7%9A%84%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0%E5%B0%BE%E5%A3%B0%E4%BA%86%E6%9C%9F%E5%BE%85%E4%B8%8B%E6%AC%A1%E5%86%8D%E5%87%BA%E5%8F%91/</link>
+				<pubDate>Fri, 06 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day45%E4%BC%91%E5%85%BB%E7%94%9F%E6%81%AF%E4%B9%9F%E8%AE%B8%E6%8E%A5%E8%BF%91%E8%BF%99%E6%AC%A1%E7%9A%84%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0%E5%B0%BE%E5%A3%B0%E4%BA%86%E6%9C%9F%E5%BE%85%E4%B8%8B%E6%AC%A1%E5%86%8D%E5%87%BA%E5%8F%91/</guid>
+				<description>&lt;p&gt;今天下午有个论文写作指导的课，持续六周，毫无营养非常boring，后期应该找代签去了，我是不愿意浪费时间。&#xA;周一早上和论文写作课同个老师的必修就让哥们帮忙记作业吧，然后按时交作业混个及格就是了，我真不愿意受这个折磨，上学期已经被同类型选修折磨过了，好在必修课认识的人比较多，记作业应该比较方便。&#xA;周一晚上那个直接不去就是了，曹健老师的方针一向比较开明，有需要的话再找代签吧。&#xA;周三的新中特也找代签签到吧，最后5.9之前交个论文，打印资料去考试就好了，持续8周。&#xA;至于玄之又玄的周末素质课，等他通知再说吧。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day44：接到第一个offer，晚上又面试，间歇性学习八股和力扣</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day44%E6%8E%A5%E5%88%B0%E7%AC%AC%E4%B8%80%E4%B8%AAoffer%E6%99%9A%E4%B8%8A%E5%8F%88%E9%9D%A2%E8%AF%95%E9%97%B4%E6%AD%87%E6%80%A7%E5%AD%A6%E4%B9%A0%E5%85%AB%E8%82%A1%E5%92%8C%E5%8A%9B%E6%89%A3/</link>
+				<pubDate>Thu, 05 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day44%E6%8E%A5%E5%88%B0%E7%AC%AC%E4%B8%80%E4%B8%AAoffer%E6%99%9A%E4%B8%8A%E5%8F%88%E9%9D%A2%E8%AF%95%E9%97%B4%E6%AD%87%E6%80%A7%E5%AD%A6%E4%B9%A0%E5%85%AB%E8%82%A1%E5%92%8C%E5%8A%9B%E6%89%A3/</guid>
+				<description>&lt;p&gt;今天接到HR电话，似乎公司很缺人，本来要HR面的，他打了个电话就算面试过了，就是昨天中午那家“下午一点半一家小厂面试，我旷了新中特去面的，最后面完也就两点，面试官不考我手撕，不懂是瞧不上我，随便问问凑时间就过了还是这方面要求现在随着vibe普及没那么严格了，更重要的是宏观能力”，按照面试官的说法应该是去强化学习小组做一些to b的research，刚好是合适的方向，就算先得干点脏活累活也认了，因为薪资开的稍微有点高了，让我很难拒绝。&#xA;晚上又面试了与爱为舞，手撕再次失败，我真想打死自己md，好在思路讲清楚了，而且其他项目拷打部分回答的比较完美，按面试官的意思应该能过这一面，后面的情况不知道还有没有二面，但与我无关了。接到昨晚二面完的DP的拒信，就直接接了上面那家的offer call了，把明天晚上的人力公司IT部门的面试推掉了（这家看起来像皮包公司）。&#xA;应该不会出什么问题了吧，我看面试官一副信誓旦旦的样子，但是又说晚上去申请offer。&#xA;这一个多礼拜面试下来，其实我的手撕能力严重不足，日后需要更多的改进，而且大模型项目方面可拓展的内容还很多，现在最新的agent和VLM都需要去进行一些补习，之后也需要勤补课。好在是通过内推码投递的这家，意外之喜拿到了完全超出我个人能力的实习薪资，慢慢努力补上和科班、行家相比所欠缺的能力吧。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day43：午晚各一面</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day43%E5%8D%88%E6%99%9A%E5%90%84%E4%B8%80%E9%9D%A2/</link>
+				<pubDate>Wed, 04 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day43%E5%8D%88%E6%99%9A%E5%90%84%E4%B8%80%E9%9D%A2/</guid>
+				<description>&lt;p&gt;熬夜看完了一本古早小说，然后中午才起吃了个麦当劳，下午一点半一家小厂面试，我旷了新中特去面的，最后面完也就两点，面试官不考我手撕，不懂是瞧不上我，随便问问凑时间就过了还是这方面要求现在随着vibe普及没那么严格了，更重要的是宏观能力。面完之后偷偷溜去教室接着上新中特，当然，玩了三小时手机。&#xA;晚上7点接着昨天小厂的2面，面试官让我自我介绍一下，然后写代码，一直在考校我的思路，一直逼迫着我说清楚再写，而不是直接写，最后因为忘记defaultdict是collections库里面的了，自己用{}字典实现它一些东西没想好，其他的倒是都写的差不多，然后就结束了，问了一下想做什么方向，最后又说这边先记录了，不知道是挂了还是横向对比其他被面的。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day42：一面水过去</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day42%E4%B8%80%E9%9D%A2%E6%B0%B4%E8%BF%87%E5%8E%BB/</link>
+				<pubDate>Tue, 03 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day42%E4%B8%80%E9%9D%A2%E6%B0%B4%E8%BF%87%E5%8E%BB/</guid>
+				<description>&lt;p&gt;刷了一会力扣，复习八股，然后下午面试了一个小厂。&#xA;上来就让我写算法，没写出来，然后换了个方式，搓了个输出，边界情况没管。&#xA;让我解释的时候脑子坏了，结巴了五六分钟才说明白。&#xA;好在面试官没太在意，又和我聊了半小时，最后放我进了二面，希望主管二面能够放我一马。&#xA;晚上看面经的lc，针对的调出来刷了一下。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day41：开学第一天，上课，刷题，看小说</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day41%E5%BC%80%E5%AD%A6%E7%AC%AC%E4%B8%80%E5%A4%A9%E4%B8%8A%E8%AF%BE%E5%88%B7%E9%A2%98%E7%9C%8B%E5%B0%8F%E8%AF%B4/</link>
+				<pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day41%E5%BC%80%E5%AD%A6%E7%AC%AC%E4%B8%80%E5%A4%A9%E4%B8%8A%E8%AF%BE%E5%88%B7%E9%A2%98%E7%9C%8B%E5%B0%8F%E8%AF%B4/</guid>
+				<description>&lt;p&gt;明天下午面试，晚上上完课出去大吃大喝了一顿，22：30开始突击。&#xA;lc：搜索旋转数组（33的加强版，有相等元素）、&amp;hellip;&amp;hellip;&#xA;总之就是刷了十几二十道力扣。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day40：起床晚，看面经</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day40%E8%B5%B7%E5%BA%8A%E6%99%9A%E7%9C%8B%E9%9D%A2%E7%BB%8F/</link>
+				<pubDate>Sun, 01 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day40%E8%B5%B7%E5%BA%8A%E6%99%9A%E7%9C%8B%E9%9D%A2%E7%BB%8F/</guid>
+				<description>&lt;p&gt;lc：70&lt;/p&gt;&#xA;&lt;h2 id=&#34;vllm-为什么能加速生成&#34;&gt;&lt;strong&gt;vLLM 为什么能加速生成？&lt;/strong&gt;&lt;/h2&gt;&#xA;&lt;p&gt;注意VLLM是推理部署阶段的加速，提高吞吐率。&#xA;核心技术是 &lt;strong&gt;PagedAttention&lt;/strong&gt;：&#xA;传统 KV Cache 会给每个请求预分配一块连续显存，空间浪费严重（碎片化）。vLLM 借鉴操作系统虚拟内存的分页思想，把 KV Cache 切成小块动态分配，显存利用率大幅提升，从而支持更大 batch size。&#xA;在 GRPO 场景里，每步要对同一个 prompt 生成 G=4（或更多）个回复，&lt;strong&gt;生成阶段是最大瓶颈&lt;/strong&gt;。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day39：刷力扣，投递中，无回应</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day39%E5%88%B7%E5%8A%9B%E6%89%A3%E6%8A%95%E9%80%92%E4%B8%AD%E6%97%A0%E5%9B%9E%E5%BA%94/</link>
+				<pubDate>Sat, 28 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day39%E5%88%B7%E5%8A%9B%E6%89%A3%E6%8A%95%E9%80%92%E4%B8%AD%E6%97%A0%E5%9B%9E%E5%BA%94/</guid>
+				<description>&lt;p&gt;打算周二之前重刷一遍力扣，今天刷了十几二十题，其他的就偶尔看了下科普，效率很低，约了一个周二的面试，周日那个面试的公司似乎是皮包公司，我再看岗位招聘的时候&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day38：继续投，刷完了hot100第一遍，明天开始看八股面经</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day38%E7%BB%A7%E7%BB%AD%E6%8A%95%E5%88%B7%E5%AE%8C%E4%BA%86hot100%E7%AC%AC%E4%B8%80%E9%81%8D%E6%98%8E%E5%A4%A9%E5%BC%80%E5%A7%8B%E7%9C%8B%E5%85%AB%E8%82%A1%E9%9D%A2%E7%BB%8F/</link>
+				<pubDate>Fri, 27 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day38%E7%BB%A7%E7%BB%AD%E6%8A%95%E5%88%B7%E5%AE%8C%E4%BA%86hot100%E7%AC%AC%E4%B8%80%E9%81%8D%E6%98%8E%E5%A4%A9%E5%BC%80%E5%A7%8B%E7%9C%8B%E5%85%AB%E8%82%A1%E9%9D%A2%E7%BB%8F/</guid>
+				<description>&lt;p&gt;lc:394、739、84（单调递增栈维护）、32(栈记录 或者 动态规划)、64(二维动态规划)、5、1143(边界空间要算好n个还是n+1个、记得考虑i j的含义)、72&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day37：继续学习，改简历，海投简历</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day37%E7%BB%A7%E7%BB%AD%E5%AD%A6%E4%B9%A0%E6%94%B9%E7%AE%80%E5%8E%86%E6%B5%B7%E6%8A%95%E7%AE%80%E5%8E%86/</link>
+				<pubDate>Thu, 26 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day37%E7%BB%A7%E7%BB%AD%E5%AD%A6%E4%B9%A0%E6%94%B9%E7%AE%80%E5%8E%86%E6%B5%B7%E6%8A%95%E7%AE%80%E5%8E%86/</guid>
+				<description>&lt;p&gt;lc：416&lt;/p&gt;&#xA;&lt;p&gt;昨天学习了 DPO——一种跳过奖励模型和 RL 循环的偏好优化方法&#xA;尽管 DPO 在很多场景中可以替代 RLHF，但 RLHF 的&lt;strong&gt;在线探索能力&lt;/strong&gt;在训练推理模型时不可替代。&#xA;理解 RLHF 也是理解 GRPO（下一节）的必要基础。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day36：恢复中，学习时长还行，巴哥的过期cp好好磕</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day36%E6%81%A2%E5%A4%8D%E4%B8%AD%E5%AD%A6%E4%B9%A0%E6%97%B6%E9%95%BF%E8%BF%98%E8%A1%8C%E5%B7%B4%E5%93%A5%E7%9A%84%E8%BF%87%E6%9C%9Fcp%E5%A5%BD%E5%A5%BD%E7%A3%95/</link>
+				<pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day36%E6%81%A2%E5%A4%8D%E4%B8%AD%E5%AD%A6%E4%B9%A0%E6%97%B6%E9%95%BF%E8%BF%98%E8%A1%8C%E5%B7%B4%E5%93%A5%E7%9A%84%E8%BF%87%E6%9C%9Fcp%E5%A5%BD%E5%A5%BD%E7%A3%95/</guid>
+				<description>&lt;p&gt;昨晚八点多睡觉了，睡到半夜三点起了，玩了一小时手机又一口气睡到早上十点。&lt;/p&gt;&#xA;&lt;p&gt;刷视频刷到巴哥和HEBE，磕爽了，这么好磕的cp不多了。寒假上一对磕的是lex，恨海情天的cp就是很有故事张力啊（迫真）！！&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day35：回学校了</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day35%E5%9B%9E%E5%AD%A6%E6%A0%A1%E4%BA%86/</link>
+				<pubDate>Tue, 24 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day35%E5%9B%9E%E5%AD%A6%E6%A0%A1%E4%BA%86/</guid>
+				<description>&lt;p&gt;lc：153、4&#xA;前天高中同学聚会，昨天一整天高铁赶路回北京去了，所以day33、34就消失了。&#xA;今天早上十点到北京，回到学校十一点多了，整理完东西洗个澡吃个午饭睡个午觉现在已经四点多了。打算这两天固化一下知识点，把力扣刷完然后过一遍，顺手投一些中小厂的实习去了。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day32：</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day32/</link>
+				<pubDate>Sat, 21 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day32/</guid>
+				<description>&lt;p&gt;lc：33、153&lt;/p&gt;&#xA;&lt;p&gt;昨天粗放地把RAG项目过完了，感觉离能写到简历上还差一点距离，不过过几天再复习了，今天继续读猛猿的博客，初七回去初八就可以开始修改一份新简历来投中小厂的实习了。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day31：熬夜睡醒就18：00 晚上学了一点</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day31%E7%86%AC%E5%A4%9C%E7%9D%A1%E9%86%92%E5%B0%B11800-%E6%99%9A%E4%B8%8A%E5%AD%A6%E4%BA%86%E4%B8%80%E7%82%B9/</link>
+				<pubDate>Fri, 20 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day31%E7%86%AC%E5%A4%9C%E7%9D%A1%E9%86%92%E5%B0%B11800-%E6%99%9A%E4%B8%8A%E5%AD%A6%E4%BA%86%E4%B8%80%E7%82%B9/</guid>
+				<description>&lt;p&gt;lc：763&lt;/p&gt;&#xA;&lt;p&gt;重新默写复习了MHA MQA GQA&lt;/p&gt;&#xA;&lt;p&gt;接着学习RAG的项目&lt;/p&gt;&#xA;&lt;h3 id=&#34;embeddingspy&#34;&gt;embeddings.py&lt;/h3&gt;&#xA;&lt;p&gt;用 &lt;code&gt;FlagEmbedding&lt;/code&gt; 的 &lt;code&gt;BGEM3FlagModel&lt;/code&gt; 加载 BGE-M3。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;code&gt;get_embeddings()&lt;/code&gt; 工厂函数：按字符串选择用哪个模型。&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;__main__&lt;/code&gt; 里演示：编码文本、打印向量维度、做余弦相似度测试。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;BGEM3Embeddings：核心封装类（LangChain Embeddings 接口）&#xA;self._load_model() 优先用 FlagEmbedding，失败则 fallback&#xA;&lt;code&gt;_load_fallback_model()&lt;/code&gt;：用 sentence-transformers 兜底&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day30：春节中</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day30%E6%98%A5%E8%8A%82%E4%B8%AD/</link>
+				<pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day30%E6%98%A5%E8%8A%82%E4%B8%AD/</guid>
+				<description>&lt;p&gt;今天睡到中午，下午吃完饭刷手机随手看了一些前沿的AI信息，不算学习。然后四五点去福安了，和初中同学吃四川火锅吃到了八点多，挺好吃的，25年6月从成都毕业之后就没吃过了，好吃的甚至有些怀念以前在成都的日子。&#xA;然后去找地方第二场，结果没提前订，麻将桌都找不到一张，全被拿完了。最后没招了一群人去把飞驰人生3看完，老实说电影拍得很垃圾，但是一群人看的话，有些包袱还是可以笑一笑的。&#xA;看完去了KTV，一群人唱歌唱到2点半，其间有朋友点了好几首ACG老歌（相对于现在的年纪，已经都是十年以上的了），这些歌不像零几年杰伦和孙燕姿那些传唱了二十多年仍然热门。它在感官上有着强烈的年代感，仔细想想我也正好是十年前的那段时间上的初中，认识的这群朋友。&#xA;半夜真是很容易emo，想到这大半个月的学习日子的AI知识，情感和理性莫名其妙发生了一些挺矛盾的冲突，在吵闹的KTV里部分地陷入到了无意义的哲学思考中去。&#xA;&lt;img src=&#34;Pasted_image_20260220221329.png&#34; alt=&#34;&#34;&gt;&#xA;&lt;img src=&#34;Pasted_image_20260220221333.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day29：春节中</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day29%E6%98%A5%E8%8A%82%E4%B8%AD/</link>
+				<pubDate>Wed, 18 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day29%E6%98%A5%E8%8A%82%E4%B8%AD/</guid>
+				<description>&lt;p&gt;lc：295(大顶堆小顶堆查找中位数即可， 添加逻辑根据二者长度来写，确保a堆长度大于等于b堆)&lt;/p&gt;&#xA;&lt;p&gt;中午起床吃个饭，下午和大学认识的高中校友去打麻将，吃了个饭后开车回家，第一次自己开车上高速，稍微有点紧张，车速快了确实轻轻一碰车子就方向变老远，出隧道的时候路突然收窄了一点，而且不怎么平，右边又刚好来一辆车，手轻轻一抖紧张的很。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day28：春节中</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day28%E6%98%A5%E8%8A%82%E4%B8%AD/</link>
+				<pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day28%E6%98%A5%E8%8A%82%E4%B8%AD/</guid>
+				<description>&lt;p&gt;lc：152&lt;/p&gt;&#xA;&lt;p&gt;今天来总结学习rag项目，先看config。&#xA;在开头配置好数据与索引的落盘，避免绝对路径写法。&#xA;主语言模型用ollama配置为Qwen2.5-7B，免去细节，反正RAG项目本质上是优化prompt模板和embedding及相似度计算，对主模型直接ollama部署完调接口也省事。&#xA;embedding 选择BAAI/bge-m3，默认支持多语言，不仅可以在同一种语言内部进行语义匹配，还能处理不同语言之间的语义对齐（如中文查询匹配英文文档，在此处就是中文疾病名称查询RAG信息的英文原始信息）。支持 100+ 语言，并具备跨语言语义匹配能力，适合作为RAG/检索系统的基础质检模型。输出维度1024必须与 Embedding 模型的输出向量维度一致否则 FAISS 建索引/检索会报错或结果错乱。batch size根据显存适当调整.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day27：春节中</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day27%E6%98%A5%E8%8A%82%E4%B8%AD/</link>
+				<pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day27%E6%98%A5%E8%8A%82%E4%B8%AD/</guid>
+				<description>&lt;p&gt;lc：207、208&lt;/p&gt;&#xA;&lt;p&gt;除夕，歇息，在家太怠惰了，过完年就回学校学习，订了初七晚上的火车票去北京，卧铺睡一觉就到北京南。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day26：春节中</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day26%E6%98%A5%E8%8A%82%E4%B8%AD/</link>
+				<pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day26%E6%98%A5%E8%8A%82%E4%B8%AD/</guid>
+				<description>&lt;p&gt;lc: 300(dp[i] 的值代表 &lt;code&gt;nums&lt;/code&gt; 以 nums[i] 结尾的最长子序列长度。)&#xA;79 回溯算法都比较模板，但是得对数据结构比较清楚，可变不可变还是有一些细节。&lt;/p&gt;&#xA;&lt;p&gt;下午弄了一下openclaw，我感觉对我而言可用程度不多，可能好处就是可以把很多个应用的操作集中在一个地方来弄，体验好坏完全取决于api吐token的速度，自动化方面如果不用服务器部署的话，很鸡肋。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>学习day25：</title>
+				<link>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day25/</link>
+				<pubDate>Sat, 14 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E5%AD%A6%E4%B9%A0day25/</guid>
+				<description>&lt;p&gt;lc：287(快慢指针floyd判圈、二分查找计数都是空间复杂度O(1),个人更喜欢二分查找计数)&#xA;322、139、994&lt;/p&gt;&#xA;&lt;p&gt;开始搞RAG的第二个项目，其实也不知道做这个到底有没有用，因为求职不一定找这个方向的，这个项目不打算做很深，放在简历上能说个七七八八就行了。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>未学习day24：计划赶不上变化，又摆一天</title>
+				<link>http://localhost:1313/p/%E6%9C%AA%E5%AD%A6%E4%B9%A0day24%E8%AE%A1%E5%88%92%E8%B5%B6%E4%B8%8D%E4%B8%8A%E5%8F%98%E5%8C%96%E5%8F%88%E6%91%86%E4%B8%80%E5%A4%A9/</link>
+				<pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E6%9C%AA%E5%AD%A6%E4%B9%A0day24%E8%AE%A1%E5%88%92%E8%B5%B6%E4%B8%8D%E4%B8%8A%E5%8F%98%E5%8C%96%E5%8F%88%E6%91%86%E4%B8%80%E5%A4%A9/</guid>
+				<description>&lt;p&gt;年前在家真的是和以前每一个假期一模一样，永远没有大段空闲，永远有事做，永远有席吃，永远晚睡晚起。&lt;/p&gt;&#xA;&lt;p&gt;感觉现在能力还是很水，仅有toy项目和非常不扎实的基础知识和刷的稀烂的lc，有点焦虑了😭😭😭，不管咋样，能学多少是多少吧，下学期课表还不知道怎么样呢，也不知道得旷几门课去实习，总之真不能烂在学校了，一直待学校里蒙头学不是进步的好方式，效率也太低了。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码Day 23：</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day-23/</link>
+				<pubDate>Thu, 12 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day-23/</guid>
+				<description>&lt;p&gt;今天起床感觉精神多了，虽然还没完全好，但状态很明显好多了。&lt;/p&gt;&#xA;&lt;p&gt;lc: 560、437&lt;/p&gt;&#xA;&lt;p&gt;估计这几天要开始水第二个项目了，最近看了很多概念性的博客和论文报告，感觉学到了很多，大体上感觉自己越来越了解当今各家公司都在干什么了。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码Day 22：感冒身体不适，今日看文档</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day-22%E6%84%9F%E5%86%92%E8%BA%AB%E4%BD%93%E4%B8%8D%E9%80%82%E4%BB%8A%E6%97%A5%E7%9C%8B%E6%96%87%E6%A1%A3/</link>
+				<pubDate>Wed, 11 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day-22%E6%84%9F%E5%86%92%E8%BA%AB%E4%BD%93%E4%B8%8D%E9%80%82%E4%BB%8A%E6%97%A5%E7%9C%8B%E6%96%87%E6%A1%A3/</guid>
+				<description>&lt;p&gt;lc：31&lt;/p&gt;&#xA;&lt;p&gt;感冒了，一天擤鼻涕用了大半包抽纸，很难受，老是想打哈欠打不出来，而且头晕口干舌燥的，还有好几个口腔溃疡没好，也不知道过年前能不能好。&lt;/p&gt;&#xA;&lt;h2 id=&#34;今日学习内容&#34;&gt;今日学习内容&lt;/h2&gt;&#xA;&lt;p&gt;去挖了一下苏剑林大佬的blog，学到了很多东西。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码 Day 21：</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-21/</link>
+				<pubDate>Tue, 10 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-21/</guid>
+				<description>&lt;p&gt;lc：39、23&lt;/p&gt;&#xA;&lt;h2 id=&#34;mla在干嘛&#34;&gt;MLA在干嘛&lt;/h2&gt;&#xA;&lt;p&gt;先生成一个“公共内容向量“&lt;/p&gt;&#xA;&lt;h3&gt;$c_t^{KV}=W^{DKV}h_t$&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;所有 head &lt;strong&gt;共享&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;维度较小（低秩）&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;这是唯一需要缓存的大块 KV 内容&lt;/strong&gt;&#xA;每个 head 的 K/V 都从它“展开”&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;$[k_{t,1}^C,\ldots,k_{t,n_h}^C] = W^{UK}c_t^{KV}$&lt;/p&gt;&#xA;&lt;p&gt;$[v_{t,1}^C,\ldots,v_{t,n_h}^C] = W^{UV}c_t^{KV}$&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;不缓存结果&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;推理时 &lt;strong&gt;现算&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码 Day 20：</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-20/</link>
+				<pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-20/</guid>
+				<description>&lt;h3 id=&#34;multi-head-latent-attentionmla的核心原理&#34;&gt;Multi-head Latent Attention（MLA）的核心原理&lt;/h3&gt;&#xA;&lt;p&gt;&lt;strong&gt;核心思想&lt;/strong&gt;：不存完整的K/V，只存&amp;quot;压缩笔记&amp;quot;，用的时候再&amp;quot;解压&amp;quot;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码 Day 19：</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-19/</link>
+				<pubDate>Sun, 08 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-19/</guid>
+				<description>&lt;h2 id=&#34;昨天休息&#34;&gt;昨天休息&lt;/h2&gt;&#xA;&lt;p&gt;起晚了下午出去和朋友聚餐晚上也在外面玩了，江西菜太辣了，难受一晚上，故回家直接睡了，一点没学。&lt;/p&gt;&#xA;&lt;h2 id=&#34;今天做了啥&#34;&gt;今天做了啥&lt;/h2&gt;&#xA;&lt;p&gt;lc：199、114、17&lt;/p&gt;&#xA;&lt;p&gt;默写复习了一下MHA，把MQA GQA也看了一下，实际上大差不差。&#xA;只不过MQA Q仍然是独立的（每个头一个） 、V共享（只有一个头）&#xA;        self.W_k = nn.Linear(d_model, self.d_k)&#xA;        self.W_v = nn.Linear(d_model, self.d_k)&#xA;然后forward里面操作前增加一个维度        K = self.W_k(key).unsqueeze(1)&#xA;        V = self.W_v(value).unsqueeze(1)&#xA;不用管这个维度大小了，注意力计算 - K,V会自动广播到num_heads维度&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码 Day 17：对比实验与评估</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-17%E5%AF%B9%E6%AF%94%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0/</link>
+				<pubDate>Fri, 06 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81-day-17%E5%AF%B9%E6%AF%94%E5%AE%9E%E9%AA%8C%E4%B8%8E%E8%AF%84%E4%BC%B0/</guid>
+				<description>&lt;h2 id=&#34;计划概述&#34;&gt;计划概述&lt;/h2&gt;&#xA;&lt;p&gt;今天计划完善昨天的任务，开展评估工作。主要进行三组对比实验，以验证不同训练方法的有效性。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Token embedding and LM head are frozen in all settings.&lt;/p&gt;&#xA;&lt;h2 id=&#34;a-baseline不微调prompt--zero-shot&#34;&gt;A. Baseline：不微调（Prompt + Zero-shot）&lt;/h2&gt;&#xA;&lt;h3 id=&#34;原理说明&#34;&gt;原理说明&lt;/h3&gt;&#xA;&lt;p&gt;&lt;strong&gt;Zero-shot&lt;/strong&gt; 指不使用任何该任务的训练样本进行参数更新，仅依靠预训练模型本身的能力和提示词。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码day16：完成了qwen lora微调分类项目</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day16%E5%AE%8C%E6%88%90%E4%BA%86qwen-lora%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E9%A1%B9%E7%9B%AE/</link>
+				<pubDate>Thu, 05 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day16%E5%AE%8C%E6%88%90%E4%BA%86qwen-lora%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E9%A1%B9%E7%9B%AE/</guid>
+				<description>&lt;h3 id=&#34;问题colab-备份失败&#34;&gt;问题：Colab 备份失败&lt;/h3&gt;&#xA;&lt;p&gt;Colab 的 notebook 保存备份时输出文件的顺序出错，导致虽然能看到 wandb loss 下降的过程，但输出文件中的 LoRA 矩阵权重为空。&lt;/p&gt;&#xA;&lt;h3 id=&#34;解决方案迁移到-autodl&#34;&gt;解决方案：迁移到 AutoDL&lt;/h3&gt;&#xA;&lt;p&gt;由于本地环境配置繁琐且性能不足，直接使用 AutoDL 云服务：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码day15：colab收尾</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day15colab%E6%94%B6%E5%B0%BE/</link>
+				<pubDate>Wed, 04 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day15colab%E6%94%B6%E5%B0%BE/</guid>
+				<description>&lt;p&gt;下午两点半开始学习。QLoRA（Quantized LoRA）是指量化LoRA，其中quantized表示使用4-bit量化。&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;&#xA;&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6&#xA;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&#xA;&lt;td class=&#34;lntd&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;quantization_config&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;BitsAndBytesConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;load_in_4bit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;              &lt;span class=&#34;c1&#34;&gt;# 使用4-bit量化&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;bnb_4bit_quant_type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;nf4&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;     &lt;span class=&#34;c1&#34;&gt;# NF4量化类型&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;bnb_4bit_compute_dtype&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;torch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bfloat16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;bnb_4bit_use_double_quant&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 双重量化&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&lt;ul&gt;&#xA;&lt;li&gt;将模型权重从 &lt;strong&gt;FP16/BF16 (16-bit)&lt;/strong&gt; 压缩到 &lt;strong&gt;4-bit&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;li&gt;使用 &lt;strong&gt;NF4 (4-bit NormalFloat)&lt;/strong&gt; 量化，这是专门为神经网络权重设计的量化格式&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;双重量化&lt;/strong&gt;：连量化参数本身也量化，进一步节省显存&#xA;LoRA底秩适配：&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;&#xA;&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4&#xA;&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5&#xA;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&#xA;&lt;td class=&#34;lntd&#34;&gt;&#xA;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;lora_config&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LoraConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;                    &lt;span class=&#34;c1&#34;&gt;# 秩为8的低秩矩阵&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;lora_alpha&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;target_modules&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;q_proj&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;k_proj&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;v_proj&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&#xA;&lt;/div&gt;&#xA;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;常规全量微调：&lt;/strong&gt;&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码day14：没学习</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day14%E6%B2%A1%E5%AD%A6%E4%B9%A0/</link>
+				<pubDate>Tue, 03 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day14%E6%B2%A1%E5%AD%A6%E4%B9%A0/</guid>
+				<description>&lt;p&gt;昨晚本来想看比赛的，结果一躺床上就睡着了，一口气睡了10个小时，把前几天的睡眠亏空补了回来。中午在福州吃了个pho，然后从福州赶回宁德。&lt;/p&gt;&#xA;&lt;p&gt;晚上把房间整理了一下，洗了个澡，脏衣服洗了，随手网购了过年衣服。不然过年前快递要爆了，小地方运力有限，怕来不及拿到衣服。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码day13：没学习</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day13%E6%B2%A1%E5%AD%A6%E4%B9%A0/</link>
+				<pubDate>Mon, 02 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81day13%E6%B2%A1%E5%AD%A6%E4%B9%A0/</guid>
+				<description>&lt;p&gt;昨晚没睡着，今早五点才睡，七点起就赶动车，在车上待了10小时。二等座很不舒服，也没睡多久，太困了也才睡了俩小时，剩下的时间刷刷视频听听书就过去了。&#xA;值得回味的点是，过了宁国南，来到江西靠福建一侧的武夷山脉附近，手机就只能在较长的隧道交替之间短暂收到信号。唉，这就是家乡特色，信号比我先知道离家的距离。&#xA;晚上留在福州，和我姐带俩娃吃了海鲜火锅，久违地感受到了最浓烈的海滨风味，终于脱离了麻酱王朝老北京（当然我其实挺爱吃麻酱，只是回家了就更想尝老闽特色，我姐却用麻酱蘸料吃海鲜火锅，不理解啊不理解）。这俩娃太吵了，吵得我心累，和我姐互相交流了一下感受，两个人丁克的心愈发坚定了（至少此刻我真是这么想的）。&#xA;lc：279（isqrt返回根号结果向下取整，区别于sqrt）&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day12</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day12/</link>
+				<pubDate>Sun, 01 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day12/</guid>
+				<description>&lt;p&gt;今天没正儿八经学习，昨晚熬夜看了森载大战，一点都不好看（悲）。早上睡了五个小时起来了，要倒一下生物钟，因为明天要早起赶高铁回家。&lt;/p&gt;&#xA;&lt;p&gt;lc：146LRU缓存，python常用的api是move_to_end ,last = False 是LRU， True则是MRU&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day11</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day11/</link>
+				<pubDate>Sat, 31 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day11/</guid>
+				<description>&lt;p&gt;lc：98、51&#xA;熬夜看小说起晚了。晚上看了一下claudecode在国内怎么配置的问题，不得不说还真是八仙过海各显神通，什么法子都来了。CC官方防大陆也和防火一样生怕 claudecode在大陆能用。&#xA;配了一个小时差不多弄完了，然后把平时写日记的typora换成了obsidian并加上了claudecode插件。&#xA;开始做第一个项目：&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day10</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day10/</link>
+				<pubDate>Fri, 30 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day10/</guid>
+				<description>&lt;p&gt;今天摆了个大的，下了一白天的棋，上了个小段。我觉得可能是因为昨晚买了2月2回家的票之后，心思稍微有点飘。晚上九点开始做做样子。&lt;/p&gt;&#xA;&lt;p&gt;接着跟NLP的教程，发现了evaluate模块的变迁，evaluate.list_evaluation_modules(&lt;em&gt;include_community&lt;/em&gt;=False)这个传参已经没用了，因为社区架构已经改变了，&lt;strong&gt;官方模块（如 accuracy, f1 等）已经迁移到 Hub 上作为社区模块托管&lt;/strong&gt;。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day9</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day9/</link>
+				<pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day9/</guid>
+				<description>&lt;p&gt;今天打算直接开始学项目，天天下午刷力扣太浪费时间了，而且脑细胞死的快。力扣留到晚上睡前吧。&lt;/p&gt;&#xA;&lt;p&gt;transformer架构每个decoder都收到了最后一个encoder的输出，而不是只有最后一层 decoder 才做 cross-attention，这是为了每个抽象阶段的decoder预测都能重新参考输入。在ablation中，如果只在最后一层做cross-attention，其他层不做，则条件利用率明显下降，更像在“润色”而不是“受条件生成”。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day8</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day8/</link>
+				<pubDate>Wed, 28 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day8/</guid>
+				<description>&lt;p&gt;lc:138、108、200（List[List[str]]没注意到，得用字符串判断语句，不能用整型判断）、34、198&lt;/p&gt;&#xA;&lt;p&gt;今天微调了一下个人站，尽可能按着审美来，花了俩小时，没办法，不会写网页脚本和js，git-copilot运行又巨慢，等以后有钱了一定直接用cc或者cursor。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day7</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day7/</link>
+				<pubDate>Tue, 27 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day7/</guid>
+				<description>&lt;p&gt;今天刷三题力扣，然后开始做项目，顺便温习一下MHA代码，尽可能可以默写。&lt;/p&gt;&#xA;&lt;p&gt;lc：24、25、543&lt;/p&gt;&#xA;&lt;p&gt;默写还是差了一点，很多时候传参记不清楚。&lt;/p&gt;&#xA;&lt;p&gt;尝试了调用hugging face的api和学习本地调用下载好的大模型推理&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day6</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day6/</link>
+				<pubDate>Mon, 26 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day6/</guid>
+				<description>&lt;p&gt;摸鱼晚了，四点开始学习。今天看《动手学强化学习》，之前已经把鱼书和动手学深度学习看的差不多了，这学期也选了郁老师的课，一大半的篇幅就是在讲这些强化学习，我看了下目录。很多其实大模型入门的话已经用不到了，可能具身智能和机器人还有用，以后再学。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Have a little break</title>
+				<link>http://localhost:1313/p/have-a-little-break/</link>
+				<pubDate>Sun, 25 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/have-a-little-break/</guid>
+				<description>&lt;p&gt;今天是绝区零音乐会北京第二场，早就定了票了，于是中午起床就出发了。&#xA;&lt;img src=&#34;1.jpg&#34; alt=&#34;1&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;本来想着去音乐会前带上平板，多少学一点，但是下午小绝音乐会太多人了，旁边的咖啡馆也座无虚席，故没有学习。虽然一点无料没带，也吃到了非常多无料，感谢老师们的大力投喂。&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day4</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day4/</link>
+				<pubDate>Sat, 24 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day4/</guid>
+				<description>&lt;p&gt;今天依旧中午起，背单词，吃午饭，2点开始学习。&lt;/p&gt;&#xA;&lt;p&gt;lc：2、226、22、74、55、45&lt;/p&gt;&#xA;&lt;p&gt;继续学习RoPE，昨天提到分组依旧是两两分组，延续了SinPE的做法&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>转码学习day3</title>
+				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day3/</link>
+				<pubDate>Fri, 23 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day3/</guid>
+				<description>&lt;p&gt;今天睡了9个小时起床，吃了个饭下午两点开始学习。&lt;/p&gt;&#xA;&lt;p&gt;把昨天transformer最后组装的一点代码看完，开始刷力扣。&lt;/p&gt;&#xA;&lt;p&gt;lc：21、104(lfs) 、75、46 、78&lt;/p&gt;</description>
+			</item>
 			<item>
 				<title>转码学习day2</title>
 				<link>http://localhost:1313/p/%E8%BD%AC%E7%A0%81%E5%AD%A6%E4%B9%A0day2/</link>

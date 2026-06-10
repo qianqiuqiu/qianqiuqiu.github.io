@@ -16,16 +16,9 @@
 		
 			<atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
 			<item>
-				<title>Diary</title>
-				<link>http://localhost:1313/categories/diary/</link>
-				<pubDate>Sun, 08 Mar 2026 00:00:00 +0800</pubDate>
-				<guid>http://localhost:1313/categories/diary/</guid>
-				<description></description>
-			</item>
-			<item>
 				<title>转码日记</title>
 				<link>http://localhost:1313/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/</link>
-				<pubDate>Sat, 07 Mar 2026 00:00:00 +0000</pubDate>
+				<pubDate>Sun, 08 Mar 2026 00:00:00 +0800</pubDate>
 				<guid>http://localhost:1313/categories/%E8%BD%AC%E7%A0%81%E6%97%A5%E8%AE%B0/</guid>
 				<description></description>
 			</item>
