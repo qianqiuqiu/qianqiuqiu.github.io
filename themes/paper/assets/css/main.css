@@ -299,7 +299,7 @@ mark {
   text-decoration: underline;
   text-decoration-color: var(--accent-dim);
   text-underline-offset: 3px;
-  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .content a:hover { text-decoration-color: var(--accent); }
@@ -402,13 +402,24 @@ mark {
   opacity: 0.6;
 }
 
-/* tables */
+/* tables: .table-wrap is added by JS for overflow; bare tables still scroll */
+.content .table-wrap {
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
 .content table {
   border-collapse: collapse;
   margin: 1.5em 0;
   font-size: 0.92rem;
   display: block;
   overflow-x: auto;
+}
+
+.content .table-wrap table {
+  display: table;
+  margin: 0;
+  overflow-x: visible;
 }
 
 .content th, .content td {
@@ -460,9 +471,24 @@ mark {
   font-size: 0.8rem;
 }
 
-.post-nav a { color: var(--fg-dim); max-width: 46%; }
+.post-nav a { color: var(--fg-dim); max-width: 46%; min-width: 0; }
 .post-nav a:hover { color: var(--accent); }
 .post-nav .next { text-align: right; }
+
+.post-nav .dir {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--fg-dim);
+  opacity: 0.75;
+  margin-bottom: 2px;
+}
+
+.post-nav .t {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* ---------- archives ---------- */
 .archives-total {
@@ -633,8 +659,51 @@ mark {
   animation: blink 1.2s step-end infinite;
 }
 
+/* heading anchors */
+.hanchor {
+  font-family: var(--mono);
+  font-weight: 400;
+  color: var(--fg-dim);
+  opacity: 0;
+  margin-left: 8px;
+  transition: opacity 0.15s ease;
+}
+
+h1:hover .hanchor, h2:hover .hanchor, h3:hover .hanchor,
+h4:hover .hanchor, h5:hover .hanchor, h6:hover .hanchor,
+.hanchor:focus-visible { opacity: 1; }
+
+.hanchor:hover { color: var(--accent); }
+
+/* code copy button */
+.content .highlight,
+.content .pre-wrap { position: relative; }
+
+.copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--fg-dim);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 2px 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.content .highlight:hover .copy-btn,
+.content .pre-wrap:hover .copy-btn,
+.copy-btn:focus-visible { opacity: 1; }
+
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn.ok { color: var(--accent); opacity: 1; }
+
 /* respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .post-list .post-item { animation: none; opacity: 1; }
   .site-nav a, .post-title { transition: none; }
+  .hanchor, .copy-btn { transition: none; }
 }

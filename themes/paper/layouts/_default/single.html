@@ -25,8 +25,8 @@
   {{ end }}
   {{ if eq .Type "post" }}
   <nav class="post-nav">
-    {{ with .NextInSection }}<a class="prev" href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}
-    {{ with .PrevInSection }}<a class="next" href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ else }}<span></span>{{ end }}
+    {{ with .NextInSection }}<a class="prev" href="{{ .RelPermalink }}"><span class="dir">← newer</span><span class="t">{{ .Title }}</span></a>{{ else }}<span></span>{{ end }}
+    {{ with .PrevInSection }}<a class="next" href="{{ .RelPermalink }}"><span class="dir">older →</span><span class="t">{{ .Title }}</span></a>{{ else }}<span></span>{{ end }}
   </nav>
   {{ end }}
 </article>
@@ -37,5 +37,37 @@
   function u(){var max=h.scrollHeight-h.clientHeight;bar.style.transform="scaleX("+(max>0?h.scrollTop/max:0)+")"}
   addEventListener("scroll",u,{passive:true});addEventListener("resize",u,{passive:true});u();
 })();
+
+/* wrap tables for overflow while keeping table semantics */
+document.querySelectorAll(".content > table, .content :not(.table-wrap) > table").forEach(function(t){
+  if(t.closest(".table-wrap")||t.closest(".lntable"))return;
+  var w=document.createElement("div");
+  w.className="table-wrap";
+  t.parentNode.insertBefore(w,t);
+  w.appendChild(t);
+});
+
+/* copy button on code blocks */
+document.querySelectorAll(".content pre").forEach(function(pre){
+  if(pre.closest(".lntd:first-child"))return; /* skip line-number column */
+  var host=pre.closest(".highlight");
+  if(host&&host.querySelector(".copy-btn"))return;
+  if(!host){
+    host=document.createElement("div");
+    host.className="pre-wrap";
+    pre.parentNode.insertBefore(host,pre);
+    host.appendChild(pre);
+  }
+  var code=host.querySelector(".lntd:last-child pre code")||host.querySelector("pre code")||pre;
+  var b=document.createElement("button");
+  b.className="copy-btn";b.type="button";b.textContent="copy";
+  b.addEventListener("click",function(){
+    navigator.clipboard.writeText(code.textContent).then(function(){
+      b.textContent="copied";b.classList.add("ok");
+      setTimeout(function(){b.textContent="copy";b.classList.remove("ok")},1500);
+    });
+  });
+  host.appendChild(b);
+});
 </script>
 {{ end }}
