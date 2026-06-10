@@ -12,7 +12,7 @@
 <link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">
 {{- end }}
 {{ with resources.Get "img/avatar.png" }}{{ $f := .Resize "128x128 png" }}<link rel="icon" type="image/png" href="{{ $f.RelPermalink }}">{{ end }}
-<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)})();</script>
+<script>(function(){var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t);try{if(sessionStorage.getItem("visited")){document.documentElement.setAttribute("data-visited","")}else{sessionStorage.setItem("visited","1")}}catch(e){}})();</script>
 {{ $css := slice (resources.Get "css/fonts.css") (resources.Get "css/main.css") (resources.Get "css/chroma-light.css") (resources.Get "css/chroma-dark.css") | resources.Concat "css/bundle.css" | minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{ if and .IsPage (ne .Params.math false) -}}
@@ -23,6 +23,7 @@
 {{- end }}
 </head>
 <body>
+<a class="skip-link" href="#main">skip to content</a>
 <header class="site-head">
   <div class="wrap nav-row">
     <a class="site-name" href="{{ "/" | relLangURL }}">{{ site.Title }}<span class="cursor">_</span></a>
@@ -35,14 +36,14 @@
     </nav>
   </div>
 </header>
-<main class="wrap">
+<main id="main" class="wrap">
 {{ block "main" . }}{{ end }}
 </main>
 <footer class="site-foot">
   <div class="wrap foot-row">
     <span>© {{ site.Params.since | default "2025" }}–{{ now.Format "2006" }} {{ site.Copyright | default site.Title }}</span>
     <span class="foot-links">
-      {{ range site.Menus.social }}<a href="{{ .URL }}"{{ if hasPrefix .URL "http" }} target="_blank" rel="noopener"{{ end }}>{{ .Name }}</a>{{ end }}
+      {{ range site.Menus.social }}<a href="{{ .URL }}"{{ if hasPrefix .URL "http" }} target="_blank" rel="noopener"{{ else if or (hasSuffix .URL ".jpg") (hasSuffix .URL ".png") (hasSuffix .URL ".webp") }} data-lightbox{{ end }}>{{ .Name }}</a>{{ end }}
       <a href="{{ "index.xml" | relLangURL }}">rss</a>
     </span>
   </div>
@@ -62,6 +63,34 @@ document.getElementById("theme-toggle").addEventListener("click",function(e){
     );
   });
 });
+
+/* lightbox for image links (e.g. wechat qr) */
+document.querySelectorAll("[data-lightbox]").forEach(function(a){
+  a.addEventListener("click",function(e){
+    e.preventDefault();
+    var o=document.createElement("div");
+    o.className="lightbox";
+    o.innerHTML='<img src="'+a.getAttribute("href")+'" alt="'+a.textContent+'">';
+    o.addEventListener("click",function(){o.remove()});
+    document.addEventListener("keydown",function esc(ev){if(ev.key==="Escape"){o.remove();document.removeEventListener("keydown",esc)}});
+    document.body.appendChild(o);
+  });
+});
+
+/* back to top */
+(function(){
+  var b=document.createElement("button");
+  b.className="to-top";b.type="button";b.textContent="↑ top";b.setAttribute("aria-label","Back to top");
+  b.addEventListener("click",function(){
+    window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+  });
+  document.body.appendChild(b);
+  var on=false;
+  addEventListener("scroll",function(){
+    var s=window.scrollY>2*window.innerHeight;
+    if(s!==on){on=s;b.classList.toggle("show",s)}
+  },{passive:true});
+})();
 </script>
 </body>
 </html>
